@@ -15,7 +15,7 @@ export default function RoomsScreen() {
         !error &&
         data.usersRooms.rooms.map((room: any) => (
           <Button
-            title={room.name + room.id}
+            title={room.name}
             onPress={() =>
               navigation.navigate("Chat", {
                 roomId: room.id,
