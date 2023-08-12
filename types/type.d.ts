@@ -5,7 +5,9 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 export type HomeStackNavigatorParamList = {
   Home: undefined;
   Rooms: undefined;
-  Chat: undefined;
+  Chat: {
+    roomId: string;
+  };
 };
 
 export type HomeScreenNavigationProp = NativeStackScreenProps<
@@ -14,3 +16,5 @@ export type HomeScreenNavigationProp = NativeStackScreenProps<
   Rooms,
   Chat
 >;
+
+export type Props = NativeStackScreenProps<HomeStackNavigatorParamList, Chat>;

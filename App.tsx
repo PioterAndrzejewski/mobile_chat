@@ -14,7 +14,6 @@ import { StyleSheet } from "react-native";
 import { API_URL, API_TOKEN } from "@env";
 
 import ChatScreen from "./screens/Chat";
-import HomeScreen from "./screens/Home";
 import RoomsScreen from "./screens/Rooms";
 import { HomeStackNavigatorParamList } from "./types/type";
 
@@ -44,9 +43,12 @@ export default function App() {
     <ApolloProvider client={client}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='Home' component={HomeScreen} />
           <Stack.Screen name='Rooms' component={RoomsScreen} />
-          <Stack.Screen name='Chat' component={ChatScreen} />
+          <Stack.Screen
+            name='Chat'
+            component={ChatScreen}
+            initialParams={{ roomId: "abc" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
