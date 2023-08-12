@@ -38,13 +38,11 @@ export const styleGuide = {
   text: {
     heading: {
       "1": {
-        fontFamily: "Poppins, sans-serif",
-        fontWeight: "bold",
-        fontSize: "36px",
+        fontFamily: "PoppinsBold",
+        fontSize: 32,
       },
       "2": {
-        fontFamily: "Poppins, sans-serif",
-        fontWeight: "bold",
+        fontFamily: "PoppinsBold",
         fontSize: "28px",
       },
       "3": {
@@ -94,4 +92,16 @@ export const styleGuide = {
       lineHeight: "16px",
     },
   },
+};
+
+export const topBarStyle = {
+  display: "flex",
+  flexDirection: "row",
+  width: "100%",
+  justifyContent: "space-between",
+  paddingTop: 61,
+  paddingBottom: 24,
+  paddingHorizontal: 20,
+  backgroundColor: styleGuide.color.blue["300"],
+  ...styleGuide.corner.lg,
 };

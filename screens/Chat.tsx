@@ -5,10 +5,13 @@ import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
 import { Props } from "../types/type";
 import { Message } from "../apollo/queries";
 
+const USER_ID = "f58cc17e-7917-48f4-8a93-46642cf890c4";
+
 export default function ChatScreen({
   route: {
     params: { roomId },
   },
+  navigation,
 }: Props) {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const { loading, error, data } = useQuery(GET_ROOM_INFO, {
@@ -18,7 +21,7 @@ export default function ChatScreen({
     pollInterval: 1000,
   });
   const [sendMessage, sentResults] = useMutation(SEND_MESSAGE);
-  
+
   useEffect(() => {
     if (data) {
       const messagesAltered = data.room.messages.map((message: Message) => ({
@@ -31,6 +34,9 @@ export default function ChatScreen({
         },
       }));
       setMessages(messagesAltered);
+      navigation.setOptions({
+        title: data.room.name.replace("The one with", ""),
+      });
     }
   }, [data]);
 
@@ -50,7 +56,7 @@ export default function ChatScreen({
     <GiftedChat
       messages={messages}
       user={{
-        _id: "f58cc17e-7917-48f4-8a93-46642cf890c4",
+        _id: USER_ID,
       }}
       onSend={(messages) => onSend(messages)}
     />

@@ -7,6 +7,7 @@ export type HomeStackNavigatorParamList = {
   Rooms: undefined;
   Chat: {
     roomId: string;
+    navigation: any;
   };
 };
 
