@@ -7,8 +7,16 @@ export const styleGuide = {
     sm: {
       borderRadius: 12,
     },
-    smAlt: {
+    smAltR: {
       borderBottomLeftRadius: 12,
+      borderBottomRightRadius: 0,
+      borderTopLeftRadius: 12,
+      borderTopRightRadius: 12,
+      
+    },
+    smAltL: {
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 12,
       borderTopLeftRadius: 12,
       borderTopRightRadius: 12,
     },

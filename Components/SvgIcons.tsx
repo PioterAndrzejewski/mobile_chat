@@ -136,7 +136,12 @@ export const VisionLowIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export const DotIcon = (props: SVGProps<SVGSVGElement>) => (
-  <Svg fill='#A8FF76' height='12px' width='12px' viewBox='0 0 330 330'>
+  <Svg
+    fill={props.color || "#A8FF76"}
+    height='12px'
+    width='12px'
+    viewBox='0 0 330 330'
+  >
     <Path
       d='M165,0C74.019,0,0,74.019,0,165s74.019,165,165,165s165-74.019,165-165S255.982,0,165,0z M165,300
     C90.561,300,30,239.44,30,165S90.561,30,165,30c74.439,0,135,60.561,135,135S239.439,300,165,300z'

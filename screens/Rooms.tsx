@@ -1,13 +1,25 @@
 import React, { useEffect } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { useQuery } from "@apollo/client";
-
-import { GET_ROOMS } from "../apollo/queries";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import RoomsCard from "../Components/RoomCard";
+import { GET_ROOMS } from "../apollo/queries";
 import { styleGuide } from "../styles/guide";
+
+const USER_ID = "f58cc17e-7917-48f4-8a93-46642cf890c4";
 
 export default function RoomsScreen() {
   const { loading, error, data } = useQuery(GET_ROOMS);
+  useEffect(() => {
+    const setUserId = async () => {
+      try {
+        const value = await AsyncStorage.setItem("userId", USER_ID);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    setUserId();
+  }, [data]);
 
   return (
     <View style={styles.container}>

@@ -5,8 +5,7 @@ import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
 import { Props } from "../types/type";
 import { Message } from "../apollo/queries";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const USER_ID = "f58cc17e-7917-48f4-8a93-46642cf890c4";
+import CustomMessage from "../Components/CustomMessage";
 
 export default function ChatScreen({
   route: {
@@ -15,6 +14,8 @@ export default function ChatScreen({
   navigation,
 }: Props) {
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [interlocutorTyping, setInterlocutorTyping] = useState(true);
   const { loading, error, data } = useQuery(GET_ROOM_INFO, {
     variables: {
       roomId,
@@ -52,7 +53,19 @@ export default function ChatScreen({
     }
   }, [data]);
 
-  useEffect(() => {}, [sentResults]);
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const userId = await AsyncStorage.getItem("userId");
+        if (userId) {
+          setUserId(userId);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUserId();
+  }, []);
 
   const onSend = (newMessages: IMessage[]) => {
     sendMessage({
@@ -68,9 +81,23 @@ export default function ChatScreen({
     <GiftedChat
       messages={messages}
       user={{
-        _id: USER_ID,
+        _id: userId || "",
       }}
       onSend={(messages) => onSend(messages)}
+      placeholder=''
+      alwaysShowSend={true}
+      renderTime={() => null}
+      renderDay={() => null}
+      renderMessage={(props) => (
+        <CustomMessage
+          message={props.currentMessage}
+          userId={userId}
+          interlocutorTyping={false}
+        />
+      )}
+      renderFooter={() => (
+        <CustomMessage message={null} userId={null} interlocutorTyping />
+      )}
     />
   );
 }
