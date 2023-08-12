@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
-import { useQuery } from "@apollo/client";
-import { GET_ROOM_INFO } from "../apollo/queries";
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
 import { Props } from "../types/type";
 import { Message } from "../apollo/queries";
 
@@ -15,11 +15,12 @@ export default function ChatScreen({
     variables: {
       roomId,
     },
+    pollInterval: 1000,
   });
-
+  const [sendMessage, sentResults] = useMutation(SEND_MESSAGE);
+  
   useEffect(() => {
     if (data) {
-      console.log(data.room.messages);
       const messagesAltered = data.room.messages.map((message: Message) => ({
         _id: message.id,
         text: message.body,
@@ -33,12 +34,25 @@ export default function ChatScreen({
     }
   }, [data]);
 
+  useEffect(() => {}, [sentResults]);
+
+  const onSend = (newMessages: IMessage[]) => {
+    sendMessage({
+      variables: {
+        body: newMessages[0].text,
+        roomId,
+      },
+    });
+    setMessages((prevMessages) => GiftedChat.append(prevMessages, newMessages));
+  };
+
   return (
     <GiftedChat
       messages={messages}
       user={{
         _id: "f58cc17e-7917-48f4-8a93-46642cf890c4",
       }}
+      onSend={(messages) => onSend(messages)}
     />
   );
 }
