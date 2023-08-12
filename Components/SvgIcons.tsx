@@ -48,7 +48,7 @@ export const ProfileIcon = (props: SVGProps<SVGSVGElement>) => (
       width='64'
       height='64'
     >
-      <circle cx='32' cy='32' r='32' fill='#E9EAEE' />
+      <Circle cx='32' cy='32' r='32' fill='#E9EAEE' />
     </Mask>
     <G mask='url(#mask0)'>
       <Path
@@ -114,13 +114,7 @@ export const VisionIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export const VisionLowIcon = (props: SVGProps<SVGSVGElement>) => (
-  <Svg
-    width='18'
-    height='18'
-    viewBox='0 0 18 18'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
+  <Svg width='18' height='18' viewBox='0 0 18 18' fill='none'>
     <Path
       d='M10.4733 2.26051L9.47131 3.96559C6.026 3.81793 2.53147 5.48082 0.186545 8.93668C-0.059549 9.29879 -0.0630646 9.79098 0.179514 10.1636C1.20959 11.7211 2.46819 12.8988 3.84279 13.725L3.34709 14.6215C2.64397 15.9433 4.50373 17.0086 5.29475 15.75L12.4209 3.38903C13.103 2.26051 11.419 0.892934 10.4733 2.26051Z'
       fill='#BFC1CC'
@@ -132,6 +126,15 @@ export const VisionLowIcon = (props: SVGProps<SVGSVGElement>) => (
     <Path
       d='M9.17911 12.9163C12.5963 12.5647 12.7194 9.25654 11.9986 8.02959L9.17911 12.9163Z'
       fill='#BFC1CC'
+    />
+  </Svg>
+);
+
+export const DotIcon = (props: SVGProps<SVGSVGElement>) => (
+  <Svg fill='#A8FF76' height='12px' width='12px' viewBox='0 0 330 330'>
+    <Path
+      d='M165,0C74.019,0,0,74.019,0,165s74.019,165,165,165s165-74.019,165-165S255.982,0,165,0z M165,300
+    C90.561,300,30,239.44,30,165S90.561,30,165,30c74.439,0,135,60.561,135,135S239.439,300,165,300z'
     />
   </Svg>
 );

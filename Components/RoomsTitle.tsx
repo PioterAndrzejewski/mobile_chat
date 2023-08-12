@@ -5,24 +5,31 @@ import { useFonts } from "expo-font";
 import { SearchIcon, RoomsIcon } from "./SvgIcons";
 
 export default function RoomsTitle() {
-  const [_] = useFonts({
+  const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
   });
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Rooms</Text>
-      <View style={styles.iconsContainer}>
-        <SearchIcon />
-        <View style={styles.utterIcon}>
-          <RoomsIcon />
+  return fontLoaded ? (
+    <View style={styles.backdrop}>
+      <View style={styles.container}>
+        <Text style={styles.header}>Rooms</Text>
+        <View style={styles.iconsContainer}>
+          <SearchIcon />
+          <View style={styles.utterIcon}>
+            <RoomsIcon />
+          </View>
         </View>
       </View>
     </View>
+  ) : (
+    <Text>Loading...</Text>
   );
 }
 
 const styles = StyleSheet.create({
+  backdrop: {
+    backgroundColor: styleGuide.color.blue[100],
+  },
   container: {
     display: "flex",
     flexDirection: "row",

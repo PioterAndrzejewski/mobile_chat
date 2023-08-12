@@ -40,12 +40,6 @@ const client = new ApolloClient({
 const Stack = createNativeStackNavigator<HomeStackNavigatorParamList>();
 
 export default function App() {
-  const [_] = useFonts({
-    PoppinsBold: require("./assets/fonts/PoppinsBold.ttf"),
-    PoppinsRegular: require("./assets/fonts/PoppinsRegular.ttf"),
-    PoppinsMedium: require("./assets/fonts/PoppinsMedium.ttf"),
-    PoppinsSemiBold: require("./assets/fonts/PoppinsSemiBold.ttf"),
-  });
 
   return (
     <ApolloProvider client={client}>

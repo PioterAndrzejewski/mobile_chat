@@ -4,6 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
 import { Props } from "../types/type";
 import { Message } from "../apollo/queries";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const USER_ID = "f58cc17e-7917-48f4-8a93-46642cf890c4";
 
@@ -37,6 +38,17 @@ export default function ChatScreen({
       navigation.setOptions({
         title: data.room.name.replace("The one with", ""),
       });
+
+      const saveToStorage = async () => {
+        try {
+          data.room.messages.forEach((message: Message) =>
+            AsyncStorage.setItem(message.id, "red"),
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      saveToStorage();
     }
   }, [data]);
 
