@@ -9,14 +9,14 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import RoomsTitle from "./Components/RoomsTitle";
-
-import { API_URL, API_TOKEN } from "@env";
+import { HomeStackNavigatorParamList } from "./types/type";
 
 import ChatScreen from "./screens/Chat";
 import RoomsScreen from "./screens/Rooms";
-import { HomeStackNavigatorParamList } from "./types/type";
-import { useFonts } from "expo-font";
+import RoomsTitle from "./Components/RoomsTitle";
+import ChatTitle from "./Components/ChatTitle";
+
+import { API_URL, API_TOKEN } from "@env";
 
 const httpLink = createHttpLink({
   uri: API_URL,
@@ -40,7 +40,6 @@ const client = new ApolloClient({
 const Stack = createNativeStackNavigator<HomeStackNavigatorParamList>();
 
 export default function App() {
-
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
@@ -54,7 +53,7 @@ export default function App() {
             name='Chat'
             component={ChatScreen}
             initialParams={{ roomId: "abc" }}
-            options={{ headerTitle: () => <RoomsTitle /> }}
+            options={{ header: () => <ChatTitle /> }}
           />
         </Stack.Navigator>
       </NavigationContainer>

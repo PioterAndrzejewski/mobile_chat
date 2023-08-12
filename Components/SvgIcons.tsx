@@ -37,7 +37,12 @@ export const PlusIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export const ProfileIcon = (props: SVGProps<SVGSVGElement>) => (
-  <Svg width='64' height='64' viewBox='0 0 64 64' fill='none'>
+  <Svg
+    width={props.width || "64"}
+    height={props.height || "64"}
+    viewBox='0 0 64 64'
+    fill='none'
+  >
     <Circle cx='32' cy='32' r='32' fill='#E9EAEE' />
     <Mask
       id='mask0'
@@ -135,6 +140,18 @@ export const DotIcon = (props: SVGProps<SVGSVGElement>) => (
     <Path
       d='M165,0C74.019,0,0,74.019,0,165s74.019,165,165,165s165-74.019,165-165S255.982,0,165,0z M165,300
     C90.561,300,30,239.44,30,165S90.561,30,165,30c74.439,0,135,60.561,135,135S239.439,300,165,300z'
+    />
+  </Svg>
+);
+
+export const ArrowIcon = (props: SVGProps<SVGSVGElement>) => (
+  <Svg viewBox='0 0 16 16' fill='none' width='24' height='24'>
+    <Path
+      d='M10 15L4 8L10 1'
+      stroke='#5603AD'
+      stroke-width='3'
+      stroke-linecap='round'
+      stroke-linejoin='round'
     />
   </Svg>
 );

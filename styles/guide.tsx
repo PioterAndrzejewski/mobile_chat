@@ -50,7 +50,7 @@ export const styleGuide = {
         fontSize: 15,
       },
       "4": {
-        fontFamily: "PoppinsRegular",
+        fontFamily: "PoppinsBold",
         fontSize: 15,
       },
     },

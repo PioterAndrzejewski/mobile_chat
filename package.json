@@ -13,6 +13,9 @@
     "@react-native-async-storage/async-storage": "^1.19.1",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
+    "eslint": "^8.47.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-base-typescript": "^1.1.0",
     "expo": "~49.0.7",
     "expo-font": "^11.4.0",
     "expo-status-bar": "~1.6.0",
@@ -26,6 +29,10 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.0.14",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "react-native-dotenv": "^3.4.9",
     "typescript": "^5.1.3"
   },

@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
-import { styleGuide, topBarStyle } from "../styles/guide";
+import { View, Text, StyleSheet } from "react-native";
+import { styleGuide } from "../styles/guide";
 import { useFonts } from "expo-font";
 import { SearchIcon, RoomsIcon } from "./SvgIcons";
 

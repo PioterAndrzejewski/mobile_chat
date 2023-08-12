@@ -26,13 +26,3 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
-
-/* <Button
-title={room.name}
-onPress={() =>
-  navigation.navigate("Chat", {
-    roomId: room.id,
-  })
-}
-key={room.id}
-/> */
