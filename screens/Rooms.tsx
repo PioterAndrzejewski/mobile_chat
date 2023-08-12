@@ -3,12 +3,33 @@ import { View, Text, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { HomeScreenNavigationProp, HomeStackNavigatorParamList } from "../type";
 
+const rooms = [
+  {
+    id: 12,
+    name: "yes",
+  },
+  {
+    id: 321,
+    name: "yfdsaes",
+  },
+  {
+    id: 124,
+    name: "yedfsa",
+  },
+];
+
 export default function RoomsScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View>
       <Text>Rooms are here</Text>
-      <Button title='Click here' onPress={() => navigation.navigate("Chat")} />
+      {rooms.map((room) => (
+        <Button
+          title={room.name}
+          onPress={() => navigation.navigate("Chat")}
+          key={room.id}
+        />
+      ))}
     </View>
   );
 }
