@@ -1,35 +1,28 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { HomeScreenNavigationProp, HomeStackNavigatorParamList } from "../type";
+import { HomeScreenNavigationProp } from "../types/type";
+import { useQuery } from "@apollo/client";
 
-const rooms = [
-  {
-    id: 12,
-    name: "yes",
-  },
-  {
-    id: 321,
-    name: "yfdsaes",
-  },
-  {
-    id: 124,
-    name: "yedfsa",
-  },
-];
+import { GET_ROOMS } from "../apollo/queries";
 
 export default function RoomsScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { loading, error, data } = useQuery(GET_ROOMS);
+
   return (
     <View>
-      <Text>Rooms are here</Text>
-      {rooms.map((room) => (
-        <Button
-          title={room.name}
-          onPress={() => navigation.navigate("Chat")}
-          key={room.id}
-        />
-      ))}
+      {!loading && !error ? (
+        data.usersRooms.rooms.map((room: any) => (
+          <Button
+            title={room.name}
+            onPress={() => navigation.navigate("Chat")}
+            key={room.id}
+          />
+        ))
+      ) : (
+        <Text>Loading rooms...</Text>
+      )}
     </View>
   );
 }

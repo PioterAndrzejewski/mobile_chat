@@ -2,7 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { GiftedChat } from "react-native-gifted-chat";
-import { HomeScreenNavigationProp, HomeStackNavigatorParamList } from "../type";
+import {
+  HomeScreenNavigationProp,
+  HomeStackNavigatorParamList,
+} from "../types/type";
 
 export default function ChatScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
