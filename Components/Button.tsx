@@ -6,9 +6,10 @@ import { styleGuide } from "../styles/guide";
 
 type ButtonProps = {
   label: string;
+  onClick: () => void;
 };
 
-export default function CustomTextInput({ label }: ButtonProps) {
+export default function CustomTextInput({ label, onClick }: ButtonProps) {
   const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
@@ -16,11 +17,11 @@ export default function CustomTextInput({ label }: ButtonProps) {
     SFCompact: require("../assets/fonts/SFCompact.ttf"),
   });
   return (
-    <View style={styles.container}>
-      <TouchableOpacity>
+    <TouchableOpacity onPress={onClick}>
+      <View style={styles.container}>
         <Text style={styles.label}>{label}</Text>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 }
 

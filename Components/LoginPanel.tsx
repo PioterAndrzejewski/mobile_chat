@@ -1,47 +1,66 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
-import { useQuery } from "@apollo/client";
+import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
+import { useMutation } from "@apollo/client";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
+import { gql } from "@apollo/client";
 
 import Button from "../Components/Button";
-
-import { styleGuide } from "../styles/guide";
-import { GET_ROOM_INFO } from "../apollo/queries";
-import { HomeScreenNavigationProp } from "../types/type";
 import CustomTextInput from "./CustomTextInput";
 
+import { styleGuide } from "../styles/guide";
+import { setUserToStorage } from "../utils/setUserToStorage";
+import { HomeScreenNavigationProp } from "../types/type";
+import CustomModal from "./CustomModal";
+
+const LOGIN_USER = gql`
+  mutation LoginUser($email: String!, $password: String!) {
+    loginUser(email: $email, password: $password) {
+      token
+      user {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
 export default function LoginPanel() {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { loading, error, data } = useQuery(GET_ROOM_INFO, {
-    variables: {
-      roomId: "yes",
-    },
+  const [email, setEmail] = useState("cameron.tucker@mail.com");
+  const [password, setPassword] = useState("pgUBZ6YJlJYhTTH");
+  const [loginUser, { data, error, loading, reset }] = useMutation(LOGIN_USER, {
+    errorPolicy: "all",
   });
   const [fontLoaded] = useFonts({
+    SFCompact: require("../assets/fonts/SFCompact.ttf"),
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
-    SFCompact: require("../assets/fonts/SFCompact.ttf"),
   });
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    console.log({
-      email,
-      password,
-    });
-  }, [password, email]);
-
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const updateEmail = (newValue: string) => setEmail(newValue);
   const updatePassword = (newValue: string) => setPassword(newValue);
+
+  const handleLogin = () => {
+    try {
+      loginUser({
+        variables: {
+          email,
+          password,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (data && data.loginUser) {
+      setUserToStorage(data.loginUser.user.id, data.loginUser.token);
+      navigation.navigate("Rooms");
+    }
+  }, [data]);
 
   return (
     <View style={styles.container}>
@@ -60,12 +79,21 @@ export default function LoginPanel() {
             secure
           />
         </View>
-        <Button label='Log in' />
+        {loading ? (
+          <ActivityIndicator size='large' />
+        ) : (
+          <Button label='Log in' onClick={handleLogin} />
+        )}
       </View>
       <View style={styles.signUpContainer}>
         <Text style={styles.noAccount}>Don't have an account?</Text>
         <Text style={styles.signUp}>Sign up</Text>
       </View>
+      {error && (
+        <CustomModal>
+          <Text>{error.message}</Text>
+        </CustomModal>
+      )}
     </View>
   );
 }
@@ -92,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   signUpContainer: {
-    marginVertical: 30,
+    marginVertical: 80,
     ...styleGuide.center,
   },
   noAccount: {

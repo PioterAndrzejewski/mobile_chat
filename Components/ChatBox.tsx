@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -10,8 +9,9 @@ import CustomMessage from "./CustomMessage";
 import CustomInputToolbar from "./CustomInputToolbar";
 
 import { styleGuide } from "../styles/guide";
-import { Message } from "../apollo/queries";
+import { Message, GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
 import { HomeScreenNavigationProp } from "../types/type";
+import { getStoredUser } from "../utils/getStoredUser";
 
 type ChatBoxProps = {
   roomId: string;
@@ -75,17 +75,12 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
   }, [data]);
 
   useEffect(() => {
-    const getUserId = async () => {
-      try {
-        const userId = await AsyncStorage.getItem("userId");
-        if (userId) {
-          setUserId(userId);
-        }
-      } catch (error) {
-        console.log(error);
-      }
+    const getUser = async () => {
+      const userId = await getStoredUser();
+      setUserId(userId);
     };
-    getUserId();
+
+    getUser();
   }, []);
 
   const onSend = (message: string) => {

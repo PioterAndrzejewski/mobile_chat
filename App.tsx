@@ -9,7 +9,6 @@ import { setContext } from "@apollo/client/link/context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { HomeStackNavigatorParamList } from "./types/type";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ChatScreen from "./screens/Chat";
 import RoomsScreen from "./screens/Rooms";
@@ -19,24 +18,20 @@ import ChatTitle from "./Components/ChatTitle";
 import LoginTitle from "./Components/LoginTitle";
 
 import { API_URL, API_TOKEN } from "@env";
+import { getStoredToken } from "./utils/getStoredToken";
 
 const httpLink = createHttpLink({
   uri: API_URL,
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = async () => {
-    try {
-      await AsyncStorage.getItem("token");
-    } catch (error) {
-      console.log(error);
-    }
-    return token || null;
-  };
+const authLink = setContext(async (_, { headers }) => {
+  const storedToken = await getStoredToken();
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: storedToken
+        ? `Bearer ${storedToken}`
+        : `Bearer ${API_TOKEN}`,
     },
   };
 });
