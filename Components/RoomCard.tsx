@@ -107,6 +107,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
               {data.room.name}
             </Text>
             <Text
+              numberOfLines={1}
               style={
                 isRed
                   ? styles.lastMessage
