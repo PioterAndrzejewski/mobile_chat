@@ -15,8 +15,9 @@ import { styleGuide } from "../styles/guide";
 type CustomTextInputProps = {
   label: string;
   secure?: boolean;
-  onChange: (a: string) => void;
+  onChange: (a: string, b?: string) => void;
   value: string;
+  field?: string;
 };
 
 export default function CustomTextInput({
@@ -24,6 +25,7 @@ export default function CustomTextInput({
   secure,
   onChange,
   value,
+  field,
 }: CustomTextInputProps) {
   const [inputFocused, setInputFocused] = useState(false);
   const [hidden, setHidden] = useState<boolean | undefined>(secure);
@@ -56,7 +58,7 @@ export default function CustomTextInput({
             }
             onFocus={() => setInputFocused(true)}
             onBlur={() => setInputFocused(false)}
-            onChangeText={(value) => onChange(value)}
+            onChangeText={(value) => onChange(value, field)}
             value={value}
             editable
             secureTextEntry={secure && hidden}
