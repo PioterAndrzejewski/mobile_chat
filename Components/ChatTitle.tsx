@@ -7,7 +7,7 @@ import { HomeScreenNavigationProp } from "../types/type";
 import { ArrowIcon, VideoIcon, PhoneIcon, ProfileIcon } from "./SvgIcons";
 import { styleGuide } from "../styles/guide";
 
-// can't find a way to define who is is an interlocutor (there is no users in roominfo and no username in message models)
+// can't find a way to define who is an interlocutor (there is no users in roominfo and no username in message models)
 const INTERLOCUTOR = "The Widlarz Group";
 const IS_ACTIVE = false;
 
