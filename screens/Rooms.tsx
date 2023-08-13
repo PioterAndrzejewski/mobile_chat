@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { useQuery } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GET_ROOMS } from "../apollo/queries";
-import { styleGuide } from "../styles/guide";
 
 import RoomsCard from "../Components/RoomCard";
+
+import { styleGuide } from "../styles/guide";
+import { GET_ROOMS } from "../apollo/queries";
 
 const USER_ID = "f58cc17e-7917-48f4-8a93-46642cf890c4";
 
