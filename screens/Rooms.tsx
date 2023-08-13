@@ -8,13 +8,8 @@ import {
 } from "react-native";
 import { useQuery } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GET_ROOMS } from "../apollo/queries";
-import { styleGuide } from "../styles/guide";
 
 import RoomsCard from "../Components/RoomCard";
-
-import { styleGuide } from "../styles/guide";
-import { GET_ROOMS } from "../apollo/queries";
 
 import { styleGuide } from "../styles/guide";
 import { GET_ROOMS, GetRoomsType, RoomData } from "../apollo/queries";
