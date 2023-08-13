@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
@@ -8,6 +8,7 @@ import { Message } from "../apollo/queries";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomMessage from "../Components/CustomMessage";
 import CustomInput from "../Components/CustomInput";
+import { styleGuide } from "../styles/guide";
 
 export default function ChatScreen({
   route: {
@@ -91,29 +92,31 @@ export default function ChatScreen({
 
   return (
     (
-      <GiftedChat
-        messages={messages}
-        user={{
-          _id: userId || "",
-        }}
-        placeholder=''
-        alwaysShowSend={true}
-        renderTime={() => null}
-        renderDay={() => null}
-        renderMessage={(props) => (
-          <CustomMessage
-            message={props.currentMessage}
-            userId={userId}
-            interlocutorTyping={false}
-          />
-        )}
-        renderInputToolbar={(props) => (
-          <CustomInput {...props} onSend={onSend} />
-        )}
-        renderFooter={() => (
-          <CustomMessage message={null} userId={null} interlocutorTyping />
-        )}
-      />
+      <View style={styles.wrapper}>
+        <GiftedChat
+          messages={messages}
+          user={{
+            _id: userId || "",
+          }}
+          placeholder=''
+          alwaysShowSend={true}
+          renderTime={() => null}
+          renderDay={() => null}
+          renderMessage={(props) => (
+            <CustomMessage
+              message={props.currentMessage}
+              userId={userId}
+              interlocutorTyping={false}
+            />
+          )}
+          renderInputToolbar={(props) => (
+            <CustomInput {...props} onSend={onSend} />
+          )}
+          renderFooter={() => (
+            <CustomMessage message={null} userId={null} interlocutorTyping />
+          )}
+        />
+      </View>
     ) || (
       <View>
         <Text>loading...</Text>
@@ -121,3 +124,10 @@ export default function ChatScreen({
     )
   );
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: styleGuide.color.blue["100"],
+  },
+});
