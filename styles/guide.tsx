@@ -54,7 +54,7 @@ export const styleGuide = {
       },
       "2": {
         fontFamily: "PoppinsBold",
-        fontSize: 28,
+        fontSize: 22,
       },
       "3": {
         fontFamily: "PoppinsMedium",
@@ -62,7 +62,7 @@ export const styleGuide = {
       },
       "4": {
         fontFamily: "PoppinsBold",
-        fontSize: 15,
+        fontSize: 14,
       },
     },
     button: {

@@ -7,24 +7,12 @@ import { gql } from "@apollo/client";
 
 import Button from "../Components/Button";
 import CustomTextInput from "./CustomTextInput";
+import CustomModal from "./CustomModal";
 
 import { styleGuide } from "../styles/guide";
 import { setUserToStorage } from "../utils/setUserToStorage";
 import { HomeScreenNavigationProp } from "../types/type";
-import CustomModal from "./CustomModal";
-
-const LOGIN_USER = gql`
-  mutation LoginUser($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
-      token
-      user {
-        id
-        firstName
-        lastName
-      }
-    }
-  }
-`;
+import { LOGIN_USER } from "../apollo/queries";
 
 export default function LoginPanel() {
   const [email, setEmail] = useState("cameron.tucker@mail.com");

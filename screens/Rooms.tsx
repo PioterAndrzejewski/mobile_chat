@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   StyleSheet,
   ScrollView,
   RefreshControl,
   SafeAreaView,
-  Modal,
   Text,
 } from "react-native";
 import { useQuery } from "@apollo/client";
@@ -43,6 +43,7 @@ export default function RoomsScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
+        {loading && <ActivityIndicator size='large' />}
         {rooms &&
           rooms.map((room: any) => <RoomsCard key={room.id} id={room.id} />)}
         {rooms?.length === 0 && (
@@ -51,6 +52,11 @@ export default function RoomsScreen() {
               There are no rooms to show. Something went wrong, or you are not
               assigned to any rooms.
             </Text>
+          </CustomModal>
+        )}
+        {error && (
+          <CustomModal>
+            <Text>{error.message}</Text>
           </CustomModal>
         )}
       </ScrollView>
