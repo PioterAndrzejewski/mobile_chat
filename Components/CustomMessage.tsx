@@ -16,6 +16,10 @@ export default function CustomMessage({
   userId,
   interlocutorTyping,
 }: CustomMessageProps) {
+  if (!interlocutorTyping && !message && !userId) {
+    return <View style={styles.emptyContainer}></View>;
+  }
+
   if (interlocutorTyping) {
     return (
       <View style={styles.dotsRow}>
@@ -103,5 +107,9 @@ const styles = StyleSheet.create({
   },
   textUsers: {
     color: styleGuide.color.white,
+  },
+  emptyContainer: {
+    backgroundColor: "transparent",
+    height: 60,
   },
 });

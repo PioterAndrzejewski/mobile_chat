@@ -27,8 +27,23 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
     pollInterval: 1000,
   });
   const [sendMessage, sentResults] = useMutation(SEND_MESSAGE);
+  const [interlocutorTyping, setInterlocutorTyping] = useState(false);
 
   const navigation = useNavigation<HomeScreenNavigationProp>();
+
+  useEffect(() => {
+    const timeout1 = setTimeout(() => {
+      setInterlocutorTyping(true);
+    }, 1800);
+    const timeout2 = setTimeout(() => {
+      setInterlocutorTyping(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+    };
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -74,6 +89,10 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
   }, []);
 
   const onSend = (message: string) => {
+    if (message.trim() === "") {
+      return;
+    }
+
     const newIMessage = [
       {
         _id: Math.random(),
@@ -116,7 +135,11 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
             <CustomInputToolbar {...props} onSend={onSend} />
           )}
           renderFooter={() => (
-            <CustomMessage message={null} userId={null} interlocutorTyping />
+            <CustomMessage
+              message={null}
+              userId={null}
+              interlocutorTyping={interlocutorTyping}
+            />
           )}
         />
       </View>

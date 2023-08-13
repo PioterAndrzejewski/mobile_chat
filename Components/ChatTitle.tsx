@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
@@ -9,14 +9,29 @@ import { styleGuide } from "../styles/guide";
 
 // can't find a way to define who is is an interlocutor (there is no users in roominfo and no username in message models)
 const INTERLOCUTOR = "The Widlarz Group";
-const IS_ACTIVE = true;
+const IS_ACTIVE = false;
 
 export default function ChatTitle() {
+  const [isActive, setIsActive] = useState(IS_ACTIVE);
   const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
   });
 
   const navigation = useNavigation<HomeScreenNavigationProp>();
+
+  useEffect(() => {
+    const timeout1 = setTimeout(() => {
+      setIsActive(true);
+    }, 1000);
+    const timeout2 = setTimeout(() => {
+      setIsActive(false);
+    }, 7000);
+
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+    };
+  }, []);
 
   return fontLoaded ? (
     <View style={styles.backdrop}>
@@ -30,7 +45,7 @@ export default function ChatTitle() {
         <ProfileIcon width={44} height={44} />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{INTERLOCUTOR}</Text>
-          {IS_ACTIVE && <Text style={styles.active}>Active Now</Text>}
+          {isActive && <Text style={styles.active}>Active Now</Text>}
         </View>
         <View style={styles.iconsContainer}>
           <VideoIcon />
