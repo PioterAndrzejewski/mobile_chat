@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useFonts } from "expo-font";
@@ -18,8 +19,9 @@ import { styleGuide } from "../styles/guide";
 import { setUserToStorage } from "../utils/setUserToStorage";
 import { HomeScreenNavigationProp } from "../types/type";
 import { LOGIN_USER, REGISTER_USER } from "../apollo/queries";
+import { termsAndConditions, privacyPolicy } from "../assets/dummyText";
 
-type Credentials =
+export type Credentials =
   | "email"
   | "firstName"
   | "lastName"
@@ -28,11 +30,11 @@ type Credentials =
 
 export default function RegisterPanel() {
   const [credentials, setCredentials] = useState({
-    email: "a@a.pl",
-    firstName: "and",
-    lastName: "ande",
-    password: "password1",
-    passwordConfirmation: "password1",
+    email: "prefilled@email.com",
+    firstName: "prefilled name",
+    lastName: "prefilled surname",
+    password: "prefilled password",
+    passwordConfirmation: "prefilled password",
   });
   const [registerUser, { data, error, loading }] = useMutation(REGISTER_USER, {
     errorPolicy: "all",
@@ -47,6 +49,8 @@ export default function RegisterPanel() {
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
   });
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const [termsOpened, setTermsOpened] = useState(false);
+  const [policyOpened, setPolicyOpened] = useState(false);
 
   const updateCredentials = (
     newValue: string,
@@ -78,7 +82,6 @@ export default function RegisterPanel() {
 
   useEffect(() => {
     if (data && data.registerUser) {
-      console.log(data);
       loginUser({
         variables: {
           email: data.registerUser.email,
@@ -90,7 +93,6 @@ export default function RegisterPanel() {
 
   useEffect(() => {
     if (loginUserData.data && loginUserData.data.loginUser) {
-      console.log(loginUserData.data);
       setUserToStorage(
         loginUserData.data.loginUser.user.id,
         loginUserData.data.loginUser.token,
@@ -98,10 +100,6 @@ export default function RegisterPanel() {
       navigation.navigate("Rooms");
     }
   }, [loginUserData]);
-
-  useEffect(() => {
-    console.log(credentials);
-  }, [credentials]);
 
   const inputs = [
     {
@@ -135,42 +133,64 @@ export default function RegisterPanel() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.innerContainer}>
-        {!fontLoaded && <ActivityIndicator size='large' />}
-        {inputs.map((input) => (
-          <CustomTextInput
-            label={input.label}
-            onChange={updateCredentials}
-            value={input.value}
-            field={input.field}
-            {...input.others}
-            key={input.label}
-          />
-        ))}
+      <ScrollView>
+        <View style={styles.innerContainer}>
+          {!fontLoaded && <ActivityIndicator size='large' />}
+          {inputs.map((input) => (
+            <CustomTextInput
+              label={input.label}
+              onChange={updateCredentials}
+              value={input.value}
+              field={input.field}
+              {...input.others}
+              key={input.label}
+            />
+          ))}
+          {loading || loginUserData.loading ? (
+            <ActivityIndicator size='large' />
+          ) : (
+            <Button label='Sign up' onClick={handleRegister} />
+          )}
+        </View>
+        <View style={styles.privacy}>
+          <View style={styles.privacyRow}>
+            <Text style={styles.caption}>By signing up you agree with </Text>
+          </View>
+          <View style={styles.privacyRow}>
+            <TouchableOpacity onPress={() => setTermsOpened(true)}>
+              <Text style={styles.captionLink}>Terms and Conditions</Text>
+            </TouchableOpacity>
 
-        {loading || loginUserData.loading ? (
-          <ActivityIndicator size='large' />
-        ) : (
-          <Button label='Sign up' onClick={handleRegister} />
+            <Text style={styles.caption}> and </Text>
+            <TouchableOpacity onPress={() => setPolicyOpened(true)}>
+              <Text style={styles.captionLink}>Privacy Policy.</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.signUpContainer}>
+          <Text style={styles.hasAccount}>Already have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.signIn}>Log in</Text>
+          </TouchableOpacity>
+        </View>
+        {error && (
+          <CustomModal>
+            <Text>{error.message}</Text>
+          </CustomModal>
         )}
-      </View>
-      <View style={styles.privacy}>
-        <Text style={styles.caption}>By signing up you agree with</Text>
-        <Text style={styles.captionLink}>Terms and Conditions</Text>
-        <Text style={styles.caption}>and</Text>
-        <Text style={styles.captionLink}>Privacy Policy.</Text>
-      </View>
-      <View style={styles.signUpContainer}>
-        <Text style={styles.hasAccount}>Already have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text style={styles.signIn}>Log in</Text>
-        </TouchableOpacity>
-      </View>
-      {error && (
-        <CustomModal>
-          <Text>{error.message}</Text>
-        </CustomModal>
-      )}
+        {termsOpened && (
+          <CustomModal onClose={() => setTermsOpened(false)}>
+            <Text style={styles.documentTitle}>Terms and conditions</Text>
+            <Text style={styles.documentBody}>{termsAndConditions}</Text>
+          </CustomModal>
+        )}
+        {policyOpened && (
+          <CustomModal onClose={() => setPolicyOpened(false)}>
+            <Text style={styles.documentTitle}>Privacy policy</Text>
+            <Text style={styles.documentBody}>{privacyPolicy}</Text>
+          </CustomModal>
+        )}
+      </ScrollView>
     </View>
   );
 }
@@ -188,17 +208,39 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexGrow: 1,
   },
-  signUpContainer: {
-    marginVertical: 80,
+  privacy: {
+    marginTop: 16,
+  },
+  privacyRow: {
     ...styleGuide.center,
+  },
+  caption: {
+    color: styleGuide.color.white,
+    ...styleGuide.text.caption,
+  },
+  captionLink: {
+    textDecorationLine: "underline",
+    color: styleGuide.color.blue["500"],
+    ...styleGuide.text.caption,
   },
   hasAccount: {
     color: styleGuide.color.white,
     ...styleGuide.text.body,
   },
+  signUpContainer: {
+    marginTop: 20,
+    ...styleGuide.center,
+  },
   signIn: {
     marginLeft: 12,
     color: styleGuide.color.plum["500"],
+    ...styleGuide.text.body,
+  },
+  documentTitle: {
+    marginBottom: 30,
+    ...styleGuide.text.heading["3"],
+  },
+  documentBody: {
     ...styleGuide.text.body,
   },
 });

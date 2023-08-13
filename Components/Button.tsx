@@ -27,6 +27,7 @@ export default function CustomTextInput({ label, onClick }: ButtonProps) {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 30,
     padding: 14,
     backgroundColor: styleGuide.color.plum["500"],
     ...styleGuide.center,

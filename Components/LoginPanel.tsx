@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   View,
   Text,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
