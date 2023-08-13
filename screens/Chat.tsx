@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text } from "react-native";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
@@ -6,6 +7,7 @@ import { Props } from "../types/type";
 import { Message } from "../apollo/queries";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomMessage from "../Components/CustomMessage";
+import CustomInput from "../Components/CustomInput";
 
 export default function ChatScreen({
   route: {
@@ -67,37 +69,55 @@ export default function ChatScreen({
     getUserId();
   }, []);
 
-  const onSend = (newMessages: IMessage[]) => {
+  const onSend = (message: string) => {
+    const newIMessage = [
+      {
+        _id: Math.random(),
+        text: message,
+        createdAt: new Date(),
+        user: {
+          _id: userId || "",
+        },
+      },
+    ];
     sendMessage({
       variables: {
-        body: newMessages[0].text,
+        body: message,
         roomId,
       },
     });
-    setMessages((prevMessages) => GiftedChat.append(prevMessages, newMessages));
+    setMessages((prevMessages) => GiftedChat.append(prevMessages, newIMessage));
   };
 
   return (
-    <GiftedChat
-      messages={messages}
-      user={{
-        _id: userId || "",
-      }}
-      onSend={(messages) => onSend(messages)}
-      placeholder=''
-      alwaysShowSend={true}
-      renderTime={() => null}
-      renderDay={() => null}
-      renderMessage={(props) => (
-        <CustomMessage
-          message={props.currentMessage}
-          userId={userId}
-          interlocutorTyping={false}
-        />
-      )}
-      renderFooter={() => (
-        <CustomMessage message={null} userId={null} interlocutorTyping />
-      )}
-    />
+    (
+      <GiftedChat
+        messages={messages}
+        user={{
+          _id: userId || "",
+        }}
+        placeholder=''
+        alwaysShowSend={true}
+        renderTime={() => null}
+        renderDay={() => null}
+        renderMessage={(props) => (
+          <CustomMessage
+            message={props.currentMessage}
+            userId={userId}
+            interlocutorTyping={false}
+          />
+        )}
+        renderInputToolbar={(props) => (
+          <CustomInput {...props} onSend={onSend} />
+        )}
+        renderFooter={() => (
+          <CustomMessage message={null} userId={null} interlocutorTyping />
+        )}
+      />
+    ) || (
+      <View>
+        <Text>loading...</Text>
+      </View>
+    )
   );
 }

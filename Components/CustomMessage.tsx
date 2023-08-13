@@ -1,10 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Message } from "../apollo/queries";
+import { IMessage } from "react-native-gifted-chat";
 import { View, Text, StyleSheet } from "react-native";
 import { styleGuide } from "../styles/guide";
 import { DotIcon, ProfileIcon } from "./SvgIcons";
 
-export default function CustomMessage({ message, userId, interlocutorTyping }) {
+type CustomMessageProps = {
+  userId: string | null;
+  interlocutorTyping: boolean;
+  message: IMessage | null | undefined;
+};
+
+export default function CustomMessage({
+  message,
+  userId,
+  interlocutorTyping,
+}: CustomMessageProps) {
   if (interlocutorTyping) {
     return (
       <View style={styles.dotsRow}>
@@ -36,7 +46,7 @@ export default function CustomMessage({ message, userId, interlocutorTyping }) {
             isUsers ? { ...styles.text, ...styles.textUsers } : styles.text
           }
         >
-          {message.text}
+          {message && message.text}
         </Text>
       </View>
     </View>
@@ -64,7 +74,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 12,
+    marginTop: 12,
+    marginBottom: 70,
     marginHorizontal: 20,
     padding: 14,
     ...styleGuide.corner.smAltL,

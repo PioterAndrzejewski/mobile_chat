@@ -4,6 +4,10 @@ export const styleGuide = {
       borderBottomLeftRadius: 24,
       borderBottomRightRadius: 24,
     },
+    lgT: {
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+    },
     sm: {
       borderRadius: 12,
     },
@@ -12,7 +16,6 @@ export const styleGuide = {
       borderBottomRightRadius: 0,
       borderTopLeftRadius: 12,
       borderTopRightRadius: 12,
-      
     },
     smAltL: {
       borderBottomLeftRadius: 0,
