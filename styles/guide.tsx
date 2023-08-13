@@ -95,4 +95,9 @@ export const styleGuide = {
       lineHeight: 16,
     },
   },
+  center: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
 };
