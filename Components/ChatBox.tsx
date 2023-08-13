@@ -8,7 +8,7 @@ import { HomeScreenNavigationProp } from "../types/type";
 import { Message } from "../apollo/queries";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomMessage from "./CustomMessage";
-import CustomInput from "./CustomInput";
+import CustomInputToolbar from "./CustomInputToolbar";
 import { styleGuide } from "../styles/guide";
 
 type ChatBoxProps = {
@@ -111,7 +111,7 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
             />
           )}
           renderInputToolbar={(props) => (
-            <CustomInput {...props} onSend={onSend} />
+            <CustomInputToolbar {...props} onSend={onSend} />
           )}
           renderFooter={() => (
             <CustomMessage message={null} userId={null} interlocutorTyping />

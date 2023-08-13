@@ -10,7 +10,7 @@ import {
 import { styleGuide } from "../styles/guide";
 import { SendIcon } from "./SvgIcons";
 
-export default function CustomInput(props: any) {
+export default function CustomInputToolbar(props: any) {
   const [position, setPosition] = useState("absolute");
   const [inputFocused, setInputFocused] = useState(false);
   const [text, setText] = useState("");
