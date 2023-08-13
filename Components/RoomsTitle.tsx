@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { styleGuide } from "../styles/guide";
 import { useFonts } from "expo-font";
+
+import { styleGuide } from "../styles/guide";
 import { SearchIcon, RoomsIcon } from "./SvgIcons";
 
 export default function RoomsTitle() {

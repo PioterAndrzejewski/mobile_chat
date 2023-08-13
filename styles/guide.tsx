@@ -96,15 +96,3 @@ export const styleGuide = {
     },
   },
 };
-
-export const topBarStyle = {
-  display: "flex",
-  flexDirection: "row",
-  width: "100%",
-  justifyContent: "space-between",
-  paddingTop: 61,
-  paddingBottom: 24,
-  paddingHorizontal: 20,
-  backgroundColor: styleGuide.color.blue["300"],
-  ...styleGuide.corner.lg,
-};

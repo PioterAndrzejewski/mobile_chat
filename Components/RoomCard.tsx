@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useQuery } from "@apollo/client";
-import { GET_ROOM_INFO } from "../apollo/queries";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import { HomeScreenNavigationProp } from "../types/type";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { styleGuide } from "../styles/guide";
-import { useFonts } from "expo-font";
 import { DotIcon, ProfileIcon } from "./SvgIcons";
+import { GET_ROOM_INFO } from "../apollo/queries";
+import { HomeScreenNavigationProp } from "../types/type";
 
 type RoomsCardProps = {
   id: string;

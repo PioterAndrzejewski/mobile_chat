@@ -11,26 +11,6 @@ export const GET_ROOMS = gql`
   }
 `;
 
-export type Message = {
-  body: string;
-  id: string;
-  insertedAt: string;
-  user: {
-    firstName: string;
-    id: string;
-    lastName: string;
-  };
-};
-
-export type GetRoomsType = {
-  data: {
-    room: {
-      id: string;
-      messages: Message[];
-    };
-  };
-};
-
 export const GET_ROOM_INFO = gql`
   query GetRoomInfo($roomId: String) {
     room(id: $roomId) {
@@ -58,3 +38,23 @@ export const SEND_MESSAGE = gql`
     }
   }
 `;
+
+export type Message = {
+  body: string;
+  id: string;
+  insertedAt: string;
+  user: {
+    firstName: string;
+    id: string;
+    lastName: string;
+  };
+};
+
+export type GetRoomsType = {
+  data: {
+    room: {
+      id: string;
+      messages: Message[];
+    };
+  };
+};

@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { styleGuide } from "../styles/guide";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
+
 import { HomeScreenNavigationProp } from "../types/type";
 import { ArrowIcon, VideoIcon, PhoneIcon, ProfileIcon } from "./SvgIcons";
+import { styleGuide } from "../styles/guide";
 
 // can't find a way to define who is is an interlocutor (there is no users in roominfo and no username in message models)
 const INTERLOCUTOR = "The Widlarz Group";

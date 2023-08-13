@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
 import { useNavigation } from "@react-navigation/native";
-import { HomeScreenNavigationProp } from "../types/type";
-import { Message } from "../apollo/queries";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import CustomMessage from "./CustomMessage";
 import CustomInputToolbar from "./CustomInputToolbar";
+
 import { styleGuide } from "../styles/guide";
+import { Message } from "../apollo/queries";
+import { HomeScreenNavigationProp } from "../types/type";
 
 type ChatBoxProps = {
   roomId: string;

@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { IMessage } from "react-native-gifted-chat";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+
+import { IMessage } from "react-native-gifted-chat";
 import { styleGuide } from "../styles/guide";
 import { DotIcon, ProfileIcon } from "./SvgIcons";
 

@@ -52,7 +52,6 @@ export default function App() {
           <Stack.Screen
             name='Chat'
             component={ChatScreen}
-            initialParams={{ roomId: "abc" }}
             options={{ header: () => <ChatTitle /> }}
           />
         </Stack.Navigator>
