@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useQuery } from "@apollo/client";
 import { useFonts } from "expo-font";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { styleGuide } from "../styles/guide";
 import { DotIcon, ProfileIcon } from "./SvgIcons";
 import { GET_ROOM_INFO } from "../apollo/queries";
 import { HomeScreenNavigationProp } from "../types/type";
+import { getTimeAgo } from "../utils/getTimeAgo";
 
 type RoomsCardProps = {
   id: string;
@@ -20,6 +21,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     variables: {
       roomId: id,
     },
+    pollInterval: 2000,
   });
   const [isRed, setIsRed] = useState(true);
   const [fontLoaded] = useFonts({
@@ -28,24 +30,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
     SFCompact: require("../assets/fonts/SFCompact.ttf"),
   });
-
-  function getTimeAgo(dateString: string): string {
-    const now = new Date();
-    const date = new Date(dateString);
-
-    const timeDiff = now.getTime() - date.getTime();
-    const minutes = Math.floor(timeDiff / (1000 * 60));
-    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-
-    if (minutes < 60) {
-      return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
-    } else if (hours < 24) {
-      return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
-    } else {
-      return `${days} day${days !== 1 ? "s" : ""} ago`;
-    }
-  }
+  const focused = useIsFocused();
 
   if (error) {
     return <Text>There was an error...</Text>;
@@ -57,13 +42,17 @@ export default function RoomsCard({ id }: RoomsCardProps) {
         const value = await AsyncStorage.getItem(data.room.messages[0].id);
         if (value !== "red") {
           setIsRed(false);
+        } else {
+          setIsRed(true);
         }
       } catch (error) {
         console.log(error);
       }
     };
-    readStorage();
-  }, [data]);
+    if (focused) {
+      readStorage();
+    }
+  }, [data, focused]);
 
   const handlePress = () => {
     navigation.navigate("Chat", {

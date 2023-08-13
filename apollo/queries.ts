@@ -50,11 +50,20 @@ export type Message = {
   };
 };
 
+export type RoomFullData = {
+  id: string;
+  messages: Message[];
+};
+
+export type RoomData = {
+  id: string;
+  name: string;
+};
+
 export type GetRoomsType = {
   data: {
-    room: {
-      id: string;
-      messages: Message[];
+    usersRooms: {
+      rooms: RoomData[];
     };
   };
 };
