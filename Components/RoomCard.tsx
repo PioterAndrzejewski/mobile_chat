@@ -19,14 +19,14 @@ import { styleGuide } from "../styles/guide";
 import { GET_ROOM_INFO } from "../apollo/queries";
 import { RoomsCardProps } from "../types/props";
 import { HomeScreenNavigationProp } from "../types/type";
+import { RoomFullData } from "../apollo/types";
 
-export default function RoomsCard({ id }: RoomsCardProps) {
+export default function RoomsCard({ id, trigger }: RoomsCardProps) {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { loading, error, data } = useQuery(GET_ROOM_INFO, {
+  const { loading, error, data, refetch } = useQuery(GET_ROOM_INFO, {
     variables: {
       roomId: id,
     },
-    pollInterval: 2000,
   });
   const [thrownError, setThrownError] = useState<any>(null);
   const [isRead, setIsRead] = useState(true);
@@ -35,22 +35,39 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
   });
+  const [roomData, setRoomData] = useState<RoomFullData | null>(null);
   const focused = useIsFocused();
+
+  useEffect(() => {
+    const onRefresh = async () => {
+      const { data } = await refetch();
+      if (data && data.room) {
+        setRoomData(data.room);
+      }
+    };
+    onRefresh();
+  }, [trigger]);
+
+  useEffect(() => {
+    if (data && data.room) {
+      setRoomData(data.room);
+    }
+  }, [data]);
 
   useEffect(() => {
     const readStorage = async () => {
       try {
         const lastReadMessageId = await AsyncStorage.getItem(id);
-        if (lastReadMessageId === data.room.messages[0].id) {
-          setIsRead(false);
-        } else {
+        if (lastReadMessageId === roomData!.messages[0].id) {
           setIsRead(true);
+        } else {
+          setIsRead(false);
         }
       } catch (err) {
         setThrownError(err);
       }
     };
-    if (focused && data) {
+    if (focused && roomData) {
       readStorage();
     }
   }, [data, focused]);
@@ -78,11 +95,11 @@ export default function RoomsCard({ id }: RoomsCardProps) {
           <ProfileIcon />
         </View>
         {loading && <ActivityIndicator />}
-        {data && data.room && (
+        {roomData && (
           <View style={styles.textContainer}>
             {isRead ? (
               <Text style={styles.time}>
-                {getTimeAgo(data.room.messages[0].insertedAt)}
+                {getTimeAgo(roomData.messages[0].insertedAt)}
               </Text>
             ) : (
               <View style={styles.dotContainer}>
@@ -98,7 +115,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
                   : { ...styles.title, ...styles.titleUnread }
               }
             >
-              {data.room.name}
+              {roomData.name}
             </Text>
             <Text
               numberOfLines={1}
@@ -108,7 +125,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
                   : { ...styles.lastMessage, ...styles.lastMessageUnread }
               }
             >
-              {data.room.messages[0].body}
+              {roomData.messages[0].body}
             </Text>
           </View>
         )}

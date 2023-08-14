@@ -59,4 +59,5 @@ export type LoginTitleProps = {
 
 export type RoomsCardProps = {
   id: string;
+  trigger: boolean;
 };
