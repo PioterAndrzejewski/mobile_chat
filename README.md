@@ -5,7 +5,7 @@
       Mobile chat
     </h2>
     <br />
-    <img src="https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/c66068d2-241c-42e1-875d-2ee1e331d5bd" alt="project image" />
+    <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/109315248/260535896-c66068d2-241c-42e1-875d-2ee1e331d5bd.png" alt="project image" />
 
   </div>
 </div>
