@@ -12,6 +12,7 @@ export type Message = {
 export type RoomFullData = {
   id: string;
   messages: Message[];
+  name: string;
 };
 
 export type RoomData = {

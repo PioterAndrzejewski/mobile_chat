@@ -22,6 +22,7 @@ export default function RoomsScreen() {
     pollInterval: 5000,
   });
   const [rooms, setRooms] = useState<null | RoomData[]>(null);
+  const [refetchTrigger, setRefetchTrigger] = useState(false);
 
   useEffect(() => {
     if (data && data.usersRooms) {
@@ -33,10 +34,11 @@ export default function RoomsScreen() {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-    }, 2000);
+    }, 1000);
     const { data }: GetRoomsType = await refetch();
     if (data && data.usersRooms) {
       setRooms(data.usersRooms.rooms);
+      setRefetchTrigger((prevValue) => !prevValue);
     }
   };
 
@@ -51,7 +53,7 @@ export default function RoomsScreen() {
         {loading && <ActivityIndicator size='large' />}
         {rooms &&
           rooms.map((room: RoomData) => (
-            <RoomsCard key={room.id} id={room.id} />
+            <RoomsCard key={room.id} id={room.id} trigger={refetchTrigger} />
           ))}
         {rooms?.length === 0 && (
           <CustomModal>
