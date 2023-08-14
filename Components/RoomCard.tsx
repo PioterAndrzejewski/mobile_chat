@@ -29,7 +29,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     pollInterval: 2000,
   });
   const [thrownError, setThrownError] = useState<any>(null);
-  const [isRed, setIsRed] = useState(true);
+  const [isRead, setIsRead] = useState(true);
   const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
@@ -40,11 +40,11 @@ export default function RoomsCard({ id }: RoomsCardProps) {
   useEffect(() => {
     const readStorage = async () => {
       try {
-        const value = await AsyncStorage.getItem(data.room.messages[0].id);
-        if (value !== "red") {
-          setIsRed(false);
+        const lastReadMessageId = await AsyncStorage.getItem(id);
+        if (lastReadMessageId === data.room.messages[0].id) {
+          setIsRead(false);
         } else {
-          setIsRed(true);
+          setIsRead(true);
         }
       } catch (err) {
         setThrownError(err);
@@ -69,7 +69,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     <TouchableOpacity onPress={handlePress}>
       <View
         style={
-          isRed
+          isRead
             ? styles.container
             : { ...styles.container, ...styles.containerUnread }
         }
@@ -80,7 +80,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
         {loading && <ActivityIndicator />}
         {data && data.room && (
           <View style={styles.textContainer}>
-            {isRed ? (
+            {isRead ? (
               <Text style={styles.time}>
                 {getTimeAgo(data.room.messages[0].insertedAt)}
               </Text>
@@ -93,7 +93,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
             <Text
               numberOfLines={1}
               style={
-                isRed
+                isRead
                   ? styles.title
                   : { ...styles.title, ...styles.titleUnread }
               }
@@ -103,7 +103,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
             <Text
               numberOfLines={1}
               style={
-                isRed
+                isRead
                   ? styles.lastMessage
                   : { ...styles.lastMessage, ...styles.lastMessageUnread }
               }

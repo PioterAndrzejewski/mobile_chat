@@ -65,7 +65,7 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
       const saveToStorage = async () => {
         try {
           data.room.messages.forEach((message: Message) =>
-            AsyncStorage.setItem(message.id, "red"),
+            AsyncStorage.setItem(roomId, message.id),
           );
         } catch (error) {
           setThrownError(error);
