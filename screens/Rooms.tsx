@@ -23,7 +23,7 @@ export default function RoomsScreen() {
   const [rooms, setRooms] = useState<null | RoomData[]>(null);
 
   useEffect(() => {
-    if (data) {
+    if (data && data.usersRooms) {
       setRooms(data.usersRooms.rooms);
     }
   }, [data]);
@@ -34,7 +34,9 @@ export default function RoomsScreen() {
       setRefreshing(false);
     }, 2000);
     const { data }: GetRoomsType = await refetch();
-    setRooms(data.usersRooms.rooms);
+    if (data && data.usersRooms) {
+      setRooms(data.usersRooms.rooms);
+    }
   };
 
   return (

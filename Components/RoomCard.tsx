@@ -14,14 +14,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomModal from "./CustomModal";
 import { DotIcon, ProfileIcon } from "./SvgIcons";
 
+import { getTimeAgo } from "../utils/getTimeAgo";
 import { styleGuide } from "../styles/guide";
 import { GET_ROOM_INFO } from "../apollo/queries";
+import { RoomsCardProps } from "../types/props";
 import { HomeScreenNavigationProp } from "../types/type";
-import { getTimeAgo } from "../utils/getTimeAgo";
-
-type RoomsCardProps = {
-  id: string;
-};
 
 export default function RoomsCard({ id }: RoomsCardProps) {
   const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -37,7 +34,6 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
-    SFCompact: require("../assets/fonts/SFCompact.ttf"),
   });
   const focused = useIsFocused();
 
@@ -54,7 +50,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
         setThrownError(err);
       }
     };
-    if (focused) {
+    if (focused && data) {
       readStorage();
     }
   }, [data, focused]);
@@ -82,7 +78,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
           <ProfileIcon />
         </View>
         {loading && <ActivityIndicator />}
-        {data && (
+        {data && data.room && (
           <View style={styles.textContainer}>
             {isRed ? (
               <Text style={styles.time}>

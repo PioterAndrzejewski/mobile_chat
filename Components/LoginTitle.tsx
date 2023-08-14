@@ -2,10 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 
-import { styleGuide } from "../styles/guide";
 import AppLoading from "./AppLoading";
 
-export default function LoginTitle({ title }: { title: string }) {
+import { styleGuide } from "../styles/guide";
+import { LoginTitleProps } from "../types/props";
+
+export default function LoginTitle({ title }: LoginTitleProps) {
   const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
   });

@@ -4,8 +4,8 @@ import { useFonts } from "expo-font";
 
 import AppLoading from "./AppLoading";
 
-import { styleGuide } from "../styles/guide";
 import { SearchIcon, RoomsIcon } from "./SvgIcons";
+import { styleGuide } from "../styles/guide";
 
 export default function RoomsTitle() {
   const [fontLoaded] = useFonts({
@@ -16,7 +16,7 @@ export default function RoomsTitle() {
     return <AppLoading />;
   }
 
-  return fontLoaded ? (
+  return (
     <View style={styles.backdrop}>
       <View style={styles.container}>
         <Text style={styles.header}>Rooms</Text>
@@ -28,8 +28,6 @@ export default function RoomsTitle() {
         </View>
       </View>
     </View>
-  ) : (
-    <Text>Loading...</Text>
   );
 }
 

@@ -5,9 +5,9 @@ import { useNavigation } from "@react-navigation/native";
 
 import AppLoading from "./AppLoading";
 
-import { HomeScreenNavigationProp } from "../types/type";
 import { ArrowIcon, VideoIcon, PhoneIcon, ProfileIcon } from "./SvgIcons";
 import { styleGuide } from "../styles/guide";
+import { HomeScreenNavigationProp } from "../types/type";
 
 // can't find a way to define who is an interlocutor (there is no users in roominfo and no username in message models)
 const INTERLOCUTOR = "The Widlarz Group";

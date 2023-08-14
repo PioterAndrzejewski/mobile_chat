@@ -17,18 +17,12 @@ import Button from "../Components/Button";
 import CustomModal from "./CustomModal";
 import CustomTextInput from "./CustomTextInput";
 
-import { styleGuide } from "../styles/guide";
 import { setUserToStorage } from "../utils/setUserToStorage";
-import { HomeScreenNavigationProp } from "../types/type";
-import { LOGIN_USER, REGISTER_USER } from "../apollo/queries";
 import { termsAndConditions, privacyPolicy } from "../assets/dummyText";
-
-export type Credentials =
-  | "email"
-  | "firstName"
-  | "lastName"
-  | "password"
-  | "passwordConfirmation";
+import { LOGIN_USER, REGISTER_USER } from "../apollo/queries";
+import { styleGuide } from "../styles/guide";
+import { Credentials } from "../types/props";
+import { HomeScreenNavigationProp } from "../types/type";
 
 export default function RegisterPanel() {
   const [credentials, setCredentials] = useState({

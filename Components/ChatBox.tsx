@@ -11,13 +11,11 @@ import CustomInputToolbar from "./CustomInputToolbar";
 import CustomModal from "./CustomModal";
 
 import { styleGuide } from "../styles/guide";
-import { Message, GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
+import { GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
+import { Message } from "../apollo/types";
 import { HomeScreenNavigationProp } from "../types/type";
 import { getStoredUser } from "../utils/getStoredUser";
-
-type ChatBoxProps = {
-  roomId: string;
-};
+import { ChatBoxProps } from "../types/props";
 
 export default function ChatBox({ roomId }: ChatBoxProps) {
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -86,8 +84,8 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
     getUser();
   }, []);
 
-  const onSend = (message: string) => {
-    if (message.trim() === "") {
+  const onSend = (message: string | undefined) => {
+    if (message?.trim() === "") {
       return;
     }
 
@@ -107,7 +105,9 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
         roomId,
       },
     });
-    setMessages((prevMessages) => GiftedChat.append(prevMessages, newIMessage));
+    setMessages((prevMessages) =>
+      GiftedChat.append(prevMessages, newIMessage as IMessage[]),
+    );
   };
 
   return (
@@ -132,7 +132,11 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
             />
           )}
           renderInputToolbar={(props) => (
-            <CustomInputToolbar {...props} onSend={onSend} loading={sentResults.loading}/>
+            <CustomInputToolbar
+              {...props}
+              onSend={onSend}
+              loading={sentResults.loading}
+            />
           )}
           renderFooter={() => (
             <CustomMessage

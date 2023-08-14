@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -11,7 +11,7 @@ import { useFonts } from "expo-font";
 import AppLoading from "./AppLoading";
 
 import { styleGuide } from "../styles/guide";
-import { ButtonProps } from "../types/types";
+import { ButtonProps } from "../types/props";
 
 export default function CustomTextInput({
   label,

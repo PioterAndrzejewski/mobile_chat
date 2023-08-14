@@ -2,7 +2,7 @@ import * as React from "react";
 import { SVGProps } from "react";
 import Svg, { G, Path, Circle, Mask } from "react-native-svg";
 
-export const PhoneIcon = (props: SVGProps<SVGSVGElement>) => (
+export const PhoneIcon = () => (
   <Svg width='44' height='44' viewBox='0 0 44 44' fill='none'>
     <Circle cx='22' cy='22' r='22' fill='white' />
     <Path
@@ -12,7 +12,7 @@ export const PhoneIcon = (props: SVGProps<SVGSVGElement>) => (
   </Svg>
 );
 
-export const SearchIcon = (props: SVGProps<SVGSVGElement>) => (
+export const SearchIcon = () => (
   <Svg width='44' height='44' viewBox='0 0 44 44' fill='none'>
     <Circle cx='22' cy='22' r='22' fill='white' />
     <Path
@@ -24,7 +24,7 @@ export const SearchIcon = (props: SVGProps<SVGSVGElement>) => (
   </Svg>
 );
 
-export const PlusIcon = (props: SVGProps<SVGSVGElement>) => (
+export const PlusIcon = () => (
   <Svg width='44' height='44' viewBox='0 0 44 44' fill='none'>
     <Circle cx='22' cy='22' r='22' fill='white' />
     <Path
@@ -68,7 +68,7 @@ export const ProfileIcon = (props: SVGProps<SVGSVGElement>) => (
   </Svg>
 );
 
-export const RoomsIcon = (props: SVGProps<SVGSVGElement>) => (
+export const RoomsIcon = () => (
   <Svg width='44' height='44' viewBox='0 0 44 44' fill='none'>
     <Circle cx='22' cy='22' r='22' fill='white' />
     <Path
@@ -80,7 +80,7 @@ export const RoomsIcon = (props: SVGProps<SVGSVGElement>) => (
   </Svg>
 );
 
-export const SendIcon = (props: SVGProps<SVGSVGElement>) => (
+export const SendIcon = () => (
   <Svg width='44' height='44' viewBox='0 0 44 44' fill='none'>
     <Path
       d='M25.5378 38.5513C26.5866 39.6001 28.372 39.1825 28.8468 37.7773L39.0291 7.64382C39.5591 6.07527 38.0627 4.57879 36.4941 5.10881L6.36061 15.2912C4.95548 15.766 4.53788 17.5514 5.58664 18.6001L12.0232 25.0367C12.6903 25.7038 13.7328 25.814 14.5247 25.3012L18.9131 22.4589C20.7233 21.2865 22.8514 23.4146 21.679 25.2248L18.8367 29.6132C18.3239 30.405 18.4341 31.4476 19.1012 32.1147L25.5378 38.5513Z'
@@ -89,7 +89,7 @@ export const SendIcon = (props: SVGProps<SVGSVGElement>) => (
   </Svg>
 );
 
-export const VideoIcon = (props: SVGProps<SVGSVGElement>) => (
+export const VideoIcon = () => (
   <Svg width='44' height='44' viewBox='0 0 44 44' fill='none'>
     <Circle cx='22' cy='22' r='22' fill='white' />
     <Path
@@ -103,7 +103,7 @@ export const VideoIcon = (props: SVGProps<SVGSVGElement>) => (
   </Svg>
 );
 
-export const VisionIcon = (props: SVGProps<SVGSVGElement>) => (
+export const VisionIcon = () => (
   <Svg width='18' height='18' viewBox='0 0 18 18' fill='none'>
     <Path
       d='M6.36663 11.1059C4.32406 8.39883 6.76038 4.86563 9.9807 5.77969C7.33695 7.36524 10.5959 10.698 12.2201 8.01563C13.2397 11.9566 8.3846 13.7496 6.36663 11.1059Z'
@@ -118,7 +118,7 @@ export const VisionIcon = (props: SVGProps<SVGSVGElement>) => (
   </Svg>
 );
 
-export const VisionLowIcon = (props: SVGProps<SVGSVGElement>) => (
+export const VisionLowIcon = () => (
   <Svg width='18' height='18' viewBox='0 0 18 18' fill='none'>
     <Path
       d='M10.4733 2.26051L9.47131 3.96559C6.026 3.81793 2.53147 5.48082 0.186545 8.93668C-0.059549 9.29879 -0.0630646 9.79098 0.179514 10.1636C1.20959 11.7211 2.46819 12.8988 3.84279 13.725L3.34709 14.6215C2.64397 15.9433 4.50373 17.0086 5.29475 15.75L12.4209 3.38903C13.103 2.26051 11.419 0.892934 10.4733 2.26051Z'
@@ -149,7 +149,7 @@ export const DotIcon = (props: SVGProps<SVGSVGElement>) => (
   </Svg>
 );
 
-export const ArrowIcon = (props: SVGProps<SVGSVGElement>) => (
+export const ArrowIcon = () => (
   <Svg viewBox='0 0 16 16' fill='none' width='24' height='24'>
     <Path
       d='M10 15L4 8L10 1'

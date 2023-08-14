@@ -1,20 +1,15 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState } from "react";
 import {
-  Alert,
   Modal,
   StyleSheet,
   Text,
-  Pressable,
   View,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { styleGuide } from "../styles/guide";
 
-type CustomModalProps = {
-  children: ReactNode;
-  onClose?: () => void;
-};
+import { styleGuide } from "../styles/guide";
+import { CustomModalProps } from "../types/props";
 
 export default function CustomModal({ children, onClose }: CustomModalProps) {
   const [modalVisible, setModalVisible] = useState(true);

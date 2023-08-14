@@ -6,12 +6,18 @@ import {
   Keyboard,
   TextInput,
   TouchableOpacity,
+  ViewStyle,
 } from "react-native";
 
 import { SendIcon } from "./SvgIcons";
 import { styleGuide } from "../styles/guide";
+import { CustomInputProps } from "../types/props";
 
-export default function CustomInputToolbar(props: any) {
+export default function CustomInputToolbar({
+  containerStyle,
+  loading,
+  onSend,
+}: CustomInputProps) {
   const [position, setPosition] = useState("absolute");
   const [inputFocused, setInputFocused] = useState(false);
   const [text, setText] = useState("");
@@ -33,13 +39,17 @@ export default function CustomInputToolbar(props: any) {
         : keyboardWillHideListener.remove();
     };
   }, []);
-  const { containerStyle, loading } = props;
+
   const handlePress = () => {
-    props.onSend(text);
+    onSend(text);
     setText("");
   };
   return (
-    <View style={[styles.container, { position }, containerStyle]}>
+    <View
+      style={
+        { ...styles.container, position: position, containerStyle } as ViewStyle
+      }
+    >
       <TextInput
         style={
           inputFocused

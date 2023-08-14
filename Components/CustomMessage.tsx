@@ -1,15 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import { IMessage } from "react-native-gifted-chat";
 import { styleGuide } from "../styles/guide";
 import { DotIcon, ProfileIcon } from "./SvgIcons";
-
-type CustomMessageProps = {
-  userId: string | null;
-  interlocutorTyping: boolean;
-  message: IMessage | null | undefined;
-};
+import { CustomMessageProps } from "../types/props";
 
 export default function CustomMessage({
   message,

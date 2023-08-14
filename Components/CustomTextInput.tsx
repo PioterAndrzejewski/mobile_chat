@@ -9,19 +9,9 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 
-import { SendIcon, VisionIcon, VisionLowIcon } from "./SvgIcons";
+import { VisionIcon, VisionLowIcon } from "./SvgIcons";
 import { styleGuide } from "../styles/guide";
-import { Credentials } from "./RegisterPanel";
-
-type CustomTextInputProps = {
-  label: string;
-  secure?: boolean;
-  onChange: (newValue: string, field?: Credentials | undefined) => void;
-  value: string;
-  field?: Credentials | undefined;
-  error?: string;
-  isTouched?: boolean;
-};
+import { CustomTextInputProps } from "../types/props";
 
 export default function CustomTextInput({
   label,
@@ -38,7 +28,6 @@ export default function CustomTextInput({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
-    SFCompact: require("../assets/fonts/SFCompact.ttf"),
   });
 
   const handlePress = () => setHidden((prevValue) => !prevValue);
