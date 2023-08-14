@@ -12,10 +12,10 @@ import { useMutation } from "@apollo/client";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 
+import AppLoading from "./AppLoading";
 import Button from "../Components/Button";
 import CustomModal from "./CustomModal";
 import CustomTextInput from "./CustomTextInput";
-import CustomModal from "./CustomModal";
 
 import { styleGuide } from "../styles/guide";
 import { setUserToStorage } from "../utils/setUserToStorage";
@@ -28,8 +28,8 @@ export default function LoginPanel() {
   const [loginUser, { data, error, loading }] = useMutation(LOGIN_USER, {
     errorPolicy: "all",
   });
+  const [thrownError, setThrownError] = useState<any>(null);
   const [fontLoaded] = useFonts({
-    SFCompact: require("../assets/fonts/SFCompact.ttf"),
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
@@ -46,8 +46,8 @@ export default function LoginPanel() {
           password,
         },
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      setThrownError(err);
     }
   };
 
@@ -57,6 +57,10 @@ export default function LoginPanel() {
       navigation.navigate("Rooms");
     }
   }, [data]);
+
+  if (!fontLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <View style={styles.container}>
@@ -75,6 +79,7 @@ export default function LoginPanel() {
             secure
           />
         </View>
+        {!fontLoaded && <ActivityIndicator size='large' />}
         {loading ? (
           <ActivityIndicator size='large' />
         ) : (
@@ -90,9 +95,9 @@ export default function LoginPanel() {
           <Text style={styles.signUp}>Sign up</Text>
         </TouchableOpacity>
       </View>
-      {error && (
+      {(error || thrownError) && (
         <CustomModal>
-          <Text>{error.message}</Text>
+          <Text>{error?.message || thrownError.message}</Text>
         </CustomModal>
       )}
     </View>

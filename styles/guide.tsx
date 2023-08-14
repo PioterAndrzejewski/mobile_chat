@@ -81,16 +81,16 @@ export const styleGuide = {
       lineHeight: 20,
     },
     caption: {
-      fontFamily: "SFCompact",
+      fontFamily: "PoppinsRegular",
       fontSize: 13,
       lineHeight: 20,
     },
     body: {
-      fontFamily: "SFCompact",
+      fontFamily: "PoppinsRegular",
       fontSize: 14,
     },
     special: {
-      fontFamily: "SF Compact Text, sans-serif",
+      fontFamily: "PoppinsRegular",
       fontSize: 12,
       lineHeight: 16,
     },

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 
+import AppLoading from "./AppLoading";
+
 import { HomeScreenNavigationProp } from "../types/type";
 import { ArrowIcon, VideoIcon, PhoneIcon, ProfileIcon } from "./SvgIcons";
 import { styleGuide } from "../styles/guide";
@@ -33,7 +35,11 @@ export default function ChatTitle() {
     };
   }, []);
 
-  return fontLoaded ? (
+  if (!fontLoaded) {
+    return <AppLoading />;
+  }
+
+  return (
     <View style={styles.backdrop}>
       <View style={styles.container}>
         <TouchableOpacity
@@ -55,8 +61,6 @@ export default function ChatTitle() {
         </View>
       </View>
     </View>
-  ) : (
-    <Text>Loading...</Text>
   );
 }
 

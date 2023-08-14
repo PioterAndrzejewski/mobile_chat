@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { useQuery } from "@apollo/client";
 import { useFonts } from "expo-font";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { styleGuide } from "../styles/guide";
+import CustomModal from "./CustomModal";
 import { DotIcon, ProfileIcon } from "./SvgIcons";
+
+import { styleGuide } from "../styles/guide";
 import { GET_ROOM_INFO } from "../apollo/queries";
 import { HomeScreenNavigationProp } from "../types/type";
 import { getTimeAgo } from "../utils/getTimeAgo";
@@ -23,6 +31,7 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     },
     pollInterval: 2000,
   });
+  const [thrownError, setThrownError] = useState<any>(null);
   const [isRed, setIsRed] = useState(true);
   const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
@@ -31,10 +40,6 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     SFCompact: require("../assets/fonts/SFCompact.ttf"),
   });
   const focused = useIsFocused();
-
-  if (error) {
-    return <Text>There was an error...</Text>;
-  }
 
   useEffect(() => {
     const readStorage = async () => {
@@ -45,8 +50,8 @@ export default function RoomsCard({ id }: RoomsCardProps) {
         } else {
           setIsRed(true);
         }
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        setThrownError(err);
       }
     };
     if (focused) {
@@ -60,6 +65,10 @@ export default function RoomsCard({ id }: RoomsCardProps) {
     });
   };
 
+  if (!fontLoaded) {
+    return <ActivityIndicator />;
+  }
+
   return (
     <TouchableOpacity onPress={handlePress}>
       <View
@@ -72,8 +81,8 @@ export default function RoomsCard({ id }: RoomsCardProps) {
         <View style={styles.avatar}>
           <ProfileIcon />
         </View>
-
-        {data && fontLoaded && (
+        {loading && <ActivityIndicator />}
+        {data && (
           <View style={styles.textContainer}>
             {isRed ? (
               <Text style={styles.time}>
@@ -106,6 +115,11 @@ export default function RoomsCard({ id }: RoomsCardProps) {
               {data.room.messages[0].body}
             </Text>
           </View>
+        )}
+        {(error || thrownError) && (
+          <CustomModal>
+            <Text>{error?.message || thrownError.message}</Text>
+          </CustomModal>
         )}
       </View>
     </TouchableOpacity>

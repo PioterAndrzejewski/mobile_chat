@@ -3,18 +3,21 @@ import { View, Text, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 
 import { styleGuide } from "../styles/guide";
+import AppLoading from "./AppLoading";
 
 export default function LoginTitle({ title }: { title: string }) {
   const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
   });
 
-  return fontLoaded ? (
+  if (!fontLoaded) {
+    return <AppLoading />;
+  }
+
+  return (
     <View style={styles.container}>
       <Text style={styles.header}>{title}</Text>
     </View>
-  ) : (
-    <Text>Loading...</Text>
   );
 }
 

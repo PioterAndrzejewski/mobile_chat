@@ -12,6 +12,7 @@ import { useMutation } from "@apollo/client";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 
+import AppLoading from "./AppLoading";
 import Button from "../Components/Button";
 import CustomModal from "./CustomModal";
 import CustomTextInput from "./CustomTextInput";
@@ -66,7 +67,6 @@ export default function RegisterPanel() {
     errorPolicy: "all",
   });
   const [fontLoaded] = useFonts({
-    SFCompact: require("../assets/fonts/SFCompact.ttf"),
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
@@ -75,35 +75,36 @@ export default function RegisterPanel() {
   const [termsOpened, setTermsOpened] = useState(false);
   const [policyOpened, setPolicyOpened] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [thrownError, setThrownError] = useState<any>(null);
 
   const updateCredentials = (
     newValue: string,
     field: Credentials | undefined,
   ) => {
-    let error = "";
+    let validationError = "";
     let clearPasswordError = false;
     switch (field) {
       case "email":
         if (!newValue.includes("@")) {
-          error = "Email is wrong";
+          validationError = "Email is wrong";
         }
         break;
       case "firstName":
         if (newValue.trim().length < 3) {
-          error = "First name is too short";
+          validationError = "First name is too short";
         }
         break;
       case "lastName":
         if (newValue.trim().length < 3) {
-          error = "Last name is too short";
+          validationError = "Last name is too short";
         }
         break;
       case "password":
         if (newValue !== credentials.passwordConfirmation) {
-          error = "Passwords are not the same";
+          validationError = "Passwords are not the same";
         }
         if (newValue.length < 8) {
-          error = "Password is too short";
+          validationError = "Password is too short";
         }
         if (newValue === credentials.passwordConfirmation) {
           clearPasswordError = true;
@@ -111,7 +112,7 @@ export default function RegisterPanel() {
         break;
       case "passwordConfirmation":
         if (newValue !== credentials.password) {
-          error = "Passwords are not the same";
+          validationError = "Passwords are not the same";
         }
         if (newValue === credentials.password) {
           clearPasswordError = true;
@@ -134,22 +135,21 @@ export default function RegisterPanel() {
         newValidation.passwordConfirmation.error = "";
       }
       if (
-        error === "Passwords are not the same" &&
+        validationError === "Passwords are not the same" &&
         newValidation.password.isTouched &&
         newValidation.passwordConfirmation.isTouched
       ) {
-        newValidation.password.error = error;
-        newValidation.passwordConfirmation.error = error;
+        newValidation.password.error = validationError;
+        newValidation.passwordConfirmation.error = validationError;
         return newValidation;
-      } else if (error === "Passwords are not the same") {
+      } else if (validationError === "Passwords are not the same") {
         newValidation.password.error = "";
         newValidation.passwordConfirmation.error = "";
         return newValidation;
       }
-      newValidation[field!].error = error;
+      newValidation[field!].error = validationError;
       return newValidation;
     });
-    console.log(validation);
   };
 
   const handleRegister = () => {
@@ -169,8 +169,8 @@ export default function RegisterPanel() {
           passwordConfirmation: credentials.passwordConfirmation,
         },
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      setThrownError(err);
     }
   };
 
@@ -235,6 +235,10 @@ export default function RegisterPanel() {
     },
   ];
 
+  if (!fontLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -289,9 +293,9 @@ export default function RegisterPanel() {
             <Text style={styles.signIn}>Log in</Text>
           </TouchableOpacity>
         </View>
-        {error && (
+        {(error || thrownError) && (
           <CustomModal>
-            <Text>{error.message}</Text>
+            <Text>{error?.message || thrownError.message}</Text>
           </CustomModal>
         )}
         {termsOpened && (

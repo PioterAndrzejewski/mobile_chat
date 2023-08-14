@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 
+import AppLoading from "./AppLoading";
+
 import { styleGuide } from "../styles/guide";
 import { SearchIcon, RoomsIcon } from "./SvgIcons";
 
@@ -9,6 +11,10 @@ export default function RoomsTitle() {
   const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
   });
+
+  if (!fontLoaded) {
+    return <AppLoading />;
+  }
 
   return fontLoaded ? (
     <View style={styles.backdrop}>

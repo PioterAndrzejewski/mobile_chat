@@ -6,8 +6,8 @@ export const getStoredUser = async () => {
       return userId;
     }
     return null;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
     return null;
   }
 };

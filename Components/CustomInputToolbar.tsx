@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   StyleSheet,
   View,
   Keyboard,
@@ -32,7 +33,7 @@ export default function CustomInputToolbar(props: any) {
         : keyboardWillHideListener.remove();
     };
   }, []);
-  const { containerStyle } = props;
+  const { containerStyle, loading } = props;
   const handlePress = () => {
     props.onSend(text);
     setText("");
@@ -52,9 +53,13 @@ export default function CustomInputToolbar(props: any) {
         onSubmitEditing={handlePress}
         editable
       />
-      <TouchableOpacity onPress={handlePress} hitSlop={20}>
-        <SendIcon />
-      </TouchableOpacity>
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <TouchableOpacity onPress={handlePress} hitSlop={20}>
+          <SendIcon />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

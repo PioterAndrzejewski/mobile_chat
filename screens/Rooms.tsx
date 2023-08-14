@@ -18,7 +18,7 @@ import { GET_ROOMS, GetRoomsType, RoomData } from "../apollo/queries";
 export default function RoomsScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const { loading, error, data, refetch } = useQuery(GET_ROOMS, {
-    pollInterval: 2000,
+    pollInterval: 5000,
   });
   const [rooms, setRooms] = useState<null | RoomData[]>(null);
 

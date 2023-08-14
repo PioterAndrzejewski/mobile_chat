@@ -8,13 +8,10 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 
-import { styleGuide } from "../styles/guide";
+import AppLoading from "./AppLoading";
 
-type ButtonProps = {
-  label: string;
-  onClick: () => void;
-  disabled?: boolean;
-};
+import { styleGuide } from "../styles/guide";
+import { ButtonProps } from "../types/types";
 
 export default function CustomTextInput({
   label,
@@ -25,8 +22,12 @@ export default function CustomTextInput({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
     PoppinsRegular: require("../assets/fonts/PoppinsRegular.ttf"),
-    SFCompact: require("../assets/fonts/SFCompact.ttf"),
   });
+
+  if (!fontLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <TouchableOpacity
       onPress={() => {

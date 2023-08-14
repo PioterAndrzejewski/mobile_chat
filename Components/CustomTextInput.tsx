@@ -4,8 +4,8 @@ import {
   View,
   TextInput,
   Text,
-  Touchable,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { useFonts } from "expo-font";
 
@@ -50,6 +50,11 @@ export default function CustomTextInput({
       </TouchableOpacity>
     </View>
   );
+
+  if (!fontLoaded) {
+    return <ActivityIndicator />;
+  }
+
   return (
     <View style={styles.container}>
       <View>

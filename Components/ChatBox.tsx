@@ -5,8 +5,10 @@ import { useQuery, useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import AppLoading from "./AppLoading";
 import CustomMessage from "./CustomMessage";
 import CustomInputToolbar from "./CustomInputToolbar";
+import CustomModal from "./CustomModal";
 
 import { styleGuide } from "../styles/guide";
 import { Message, GET_ROOM_INFO, SEND_MESSAGE } from "../apollo/queries";
@@ -28,6 +30,7 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
   });
   const [sendMessage, sentResults] = useMutation(SEND_MESSAGE);
   const [interlocutorTyping, setInterlocutorTyping] = useState(false);
+  const [thrownError, setThrownError] = useState<any>(null);
 
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
@@ -67,7 +70,7 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
             AsyncStorage.setItem(message.id, "red"),
           );
         } catch (error) {
-          console.log(error);
+          setThrownError(error);
         }
       };
       saveToStorage();
@@ -108,8 +111,10 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
   };
 
   return (
-    (
-      <View style={styles.wrapper}>
+    <View style={styles.wrapper}>
+      {loading ? (
+        <AppLoading />
+      ) : (
         <GiftedChat
           messages={messages}
           user={{
@@ -127,7 +132,7 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
             />
           )}
           renderInputToolbar={(props) => (
-            <CustomInputToolbar {...props} onSend={onSend} />
+            <CustomInputToolbar {...props} onSend={onSend} loading={sentResults.loading}/>
           )}
           renderFooter={() => (
             <CustomMessage
@@ -137,12 +142,17 @@ export default function ChatBox({ roomId }: ChatBoxProps) {
             />
           )}
         />
-      </View>
-    ) || (
-      <View>
-        <Text>loading...</Text>
-      </View>
-    )
+      )}
+      {(error || thrownError || sentResults.error) && (
+        <CustomModal>
+          <Text>
+            {error?.message ||
+              thrownError?.message ||
+              sentResults.error?.message}
+          </Text>
+        </CustomModal>
+      )}
+    </View>
   );
 }
 

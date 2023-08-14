@@ -6,8 +6,8 @@ export const getStoredToken = async () => {
       return token;
     }
     return null;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
     return null;
   }
 };
