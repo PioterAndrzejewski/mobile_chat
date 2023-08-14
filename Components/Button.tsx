@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 import { useFonts } from "expo-font";
 
 import { styleGuide } from "../styles/guide";
@@ -50,7 +56,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     padding: 14,
     backgroundColor: styleGuide.color.plum["500"],
-    ...styleGuide.center,
+    ...(styleGuide.center as ViewStyle),
     ...styleGuide.corner.sm,
   },
   disabled: {

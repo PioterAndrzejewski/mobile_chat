@@ -16,9 +16,9 @@ import { Credentials } from "./RegisterPanel";
 type CustomTextInputProps = {
   label: string;
   secure?: boolean;
-  onChange: (a: string, b?: string) => void;
+  onChange: (newValue: string, field?: Credentials | undefined) => void;
   value: string;
-  field?: Credentials | string | undefined;
+  field?: Credentials | undefined;
   error?: string;
   isTouched?: boolean;
 };

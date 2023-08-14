@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  ViewStyle,
 } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useFonts } from "expo-font";
@@ -20,7 +21,6 @@ import { setUserToStorage } from "../utils/setUserToStorage";
 import { HomeScreenNavigationProp } from "../types/type";
 import { LOGIN_USER, REGISTER_USER } from "../apollo/queries";
 import { termsAndConditions, privacyPolicy } from "../assets/dummyText";
-import { emailReg } from "../utils/validation";
 
 export type Credentials =
   | "email"
@@ -113,7 +113,7 @@ export default function RegisterPanel() {
         if (newValue !== credentials.password) {
           error = "Passwords are not the same";
         }
-        if (newValue === credentials.passwordConfirmation) {
+        if (newValue === credentials.password) {
           clearPasswordError = true;
         }
         break;
@@ -154,7 +154,7 @@ export default function RegisterPanel() {
 
   const handleRegister = () => {
     for (const credential in credentials) {
-      if (validation[credential].error !== "") {
+      if (validation[credential as Credentials].error !== "") {
         setButtonDisabled(true);
         return;
       }
@@ -245,7 +245,7 @@ export default function RegisterPanel() {
               label={input.label}
               onChange={updateCredentials}
               value={input.value}
-              field={input.field}
+              field={input.field as Credentials}
               {...input.others}
               error={input.error}
               isTouched={input.touched}
@@ -272,14 +272,20 @@ export default function RegisterPanel() {
             </TouchableOpacity>
 
             <Text style={styles.caption}> and </Text>
-            <TouchableOpacity onPress={() => setPolicyOpened(true)} hitSlop={20}>
+            <TouchableOpacity
+              onPress={() => setPolicyOpened(true)}
+              hitSlop={20}
+            >
               <Text style={styles.captionLink}>Privacy Policy.</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.signUpContainer}>
           <Text style={styles.hasAccount}>Already have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")} hitSlop={20}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login")}
+            hitSlop={20}
+          >
             <Text style={styles.signIn}>Log in</Text>
           </TouchableOpacity>
         </View>
@@ -322,7 +328,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   privacyRow: {
-    ...styleGuide.center,
+    ...(styleGuide.center as ViewStyle),
   },
   caption: {
     color: styleGuide.color.white,
@@ -339,7 +345,7 @@ const styles = StyleSheet.create({
   },
   signUpContainer: {
     marginTop: 20,
-    ...styleGuide.center,
+    ...(styleGuide.center as ViewStyle),
   },
   signIn: {
     marginLeft: 12,

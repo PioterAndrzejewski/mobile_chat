@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  ViewStyle,
 } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useFonts } from "expo-font";
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
   },
   signUpContainer: {
     marginVertical: 80,
-    ...styleGuide.center,
+    ...(styleGuide.center as ViewStyle),
   },
   noAccount: {
     color: styleGuide.color.white,
