@@ -13,7 +13,8 @@ import RoomsCard from "../Components/RoomCard";
 import CustomModal from "../Components/CustomModal";
 
 import { styleGuide } from "../styles/guide";
-import { GET_ROOMS, GetRoomsType, RoomData } from "../apollo/queries";
+import { GET_ROOMS } from "../apollo/queries";
+import { GetRoomsType, RoomData } from "../apollo/types";
 
 export default function RoomsScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -49,7 +50,9 @@ export default function RoomsScreen() {
       >
         {loading && <ActivityIndicator size='large' />}
         {rooms &&
-          rooms.map((room: any) => <RoomsCard key={room.id} id={room.id} />)}
+          rooms.map((room: RoomData) => (
+            <RoomsCard key={room.id} id={room.id} />
+          ))}
         {rooms?.length === 0 && (
           <CustomModal>
             <Text>
