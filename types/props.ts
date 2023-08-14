@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { ViewStyle } from "react-native";
 import { IMessage } from "react-native-gifted-chat";
 
 export type Credentials =
@@ -8,6 +7,14 @@ export type Credentials =
   | "lastName"
   | "password"
   | "passwordConfirmation";
+
+export type CredentialsState = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  passwordConfirmation: string;
+};
 
 export type ButtonProps = {
   label: string;

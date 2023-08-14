@@ -18,6 +18,7 @@ import CustomModal from "./CustomModal";
 import CustomTextInput from "./CustomTextInput";
 
 import { setUserToStorage } from "../utils/setUserToStorage";
+import { validate } from "../utils/validate";
 import { termsAndConditions, privacyPolicy } from "../assets/dummyText";
 import { LOGIN_USER, REGISTER_USER } from "../apollo/queries";
 import { styleGuide } from "../styles/guide";
@@ -75,44 +76,12 @@ export default function RegisterPanel() {
     newValue: string,
     field: Credentials | undefined,
   ) => {
-    let validationError = "";
-    let clearPasswordError = false;
-    switch (field) {
-      case "email":
-        if (!newValue.includes("@")) {
-          validationError = "Email is wrong";
-        }
-        break;
-      case "firstName":
-        if (newValue.trim().length < 3) {
-          validationError = "First name is too short";
-        }
-        break;
-      case "lastName":
-        if (newValue.trim().length < 3) {
-          validationError = "Last name is too short";
-        }
-        break;
-      case "password":
-        if (newValue !== credentials.passwordConfirmation) {
-          validationError = "Passwords are not the same";
-        }
-        if (newValue.length < 8) {
-          validationError = "Password is too short";
-        }
-        if (newValue === credentials.passwordConfirmation) {
-          clearPasswordError = true;
-        }
-        break;
-      case "passwordConfirmation":
-        if (newValue !== credentials.password) {
-          validationError = "Passwords are not the same";
-        }
-        if (newValue === credentials.password) {
-          clearPasswordError = true;
-        }
-        break;
-    }
+    let { validationError, clearPasswordError } = validate(
+      field,
+      newValue,
+      credentials,
+    );
+
     setButtonDisabled(false);
     setCredentials((prevValue) => {
       const newCredentials = JSON.parse(JSON.stringify(prevValue));
