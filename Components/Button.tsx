@@ -7,9 +7,14 @@ import { styleGuide } from "../styles/guide";
 type ButtonProps = {
   label: string;
   onClick: () => void;
+  disabled?: boolean;
 };
 
-export default function CustomTextInput({ label, onClick }: ButtonProps) {
+export default function CustomTextInput({
+  label,
+  onClick,
+  disabled,
+}: ButtonProps) {
   const [fontLoaded] = useFonts({
     PoppinsBold: require("../assets/fonts/PoppinsBold.ttf"),
     PoppinsMedium: require("../assets/fonts/PoppinsMedium.ttf"),
@@ -17,8 +22,23 @@ export default function CustomTextInput({ label, onClick }: ButtonProps) {
     SFCompact: require("../assets/fonts/SFCompact.ttf"),
   });
   return (
-    <TouchableOpacity onPress={onClick}>
-      <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => {
+        if (!disabled) {
+          onClick();
+        }
+      }}
+    >
+      <View
+        style={
+          disabled
+            ? {
+                ...styles.container,
+                ...styles.disabled,
+              }
+            : { ...styles.container }
+        }
+      >
         <Text style={styles.label}>{label}</Text>
       </View>
     </TouchableOpacity>
@@ -32,6 +52,9 @@ const styles = StyleSheet.create({
     backgroundColor: styleGuide.color.plum["500"],
     ...styleGuide.center,
     ...styleGuide.corner.sm,
+  },
+  disabled: {
+    backgroundColor: styleGuide.color.gray["300"],
   },
   label: {
     color: styleGuide.color.white,

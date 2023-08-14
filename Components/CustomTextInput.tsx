@@ -19,6 +19,8 @@ type CustomTextInputProps = {
   onChange: (a: string, b?: string) => void;
   value: string;
   field?: Credentials | string | undefined;
+  error?: string;
+  isTouched?: boolean;
 };
 
 export default function CustomTextInput({
@@ -27,6 +29,8 @@ export default function CustomTextInput({
   onChange,
   value,
   field,
+  error,
+  isTouched,
 }: CustomTextInputProps) {
   const [inputFocused, setInputFocused] = useState(false);
   const [hidden, setHidden] = useState<boolean | undefined>(secure);
@@ -41,7 +45,7 @@ export default function CustomTextInput({
 
   const showPassword = () => (
     <View style={styles.icon}>
-      <TouchableOpacity onPress={handlePress}>
+      <TouchableOpacity onPress={handlePress} hitSlop={20}>
         {hidden ? <VisionLowIcon /> : <VisionIcon />}
       </TouchableOpacity>
     </View>
@@ -53,7 +57,12 @@ export default function CustomTextInput({
         <View>
           <TextInput
             style={
-              inputFocused
+              error && isTouched
+                ? {
+                    ...styles.input,
+                    ...styles.inputError,
+                  }
+                : inputFocused
                 ? { ...styles.input, ...styles.inputFocused }
                 : styles.input
             }
@@ -64,6 +73,7 @@ export default function CustomTextInput({
             editable
             secureTextEntry={secure && hidden}
           />
+          {error && isTouched && <Text style={styles.errorText}>{error}</Text>}
           {secure && showPassword()}
         </View>
       </View>
@@ -90,10 +100,22 @@ const styles = StyleSheet.create({
     ...styleGuide.text.title,
     backgroundColor: styleGuide.color.white,
   },
+  inputError: {
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: styleGuide.color.error,
+  },
   inputFocused: {
     borderStyle: "solid",
     borderWidth: 2,
     borderColor: styleGuide.color.plum["500"],
+  },
+  errorText: {
+    position: "absolute",
+    bottom: -24,
+    right: 0,
+    color: styleGuide.color.error,
+    ...styleGuide.text.caption,
   },
   icon: {
     position: "absolute",

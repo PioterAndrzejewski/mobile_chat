@@ -35,6 +35,7 @@ export default function CustomModal({ children, onClose }: CustomModalProps) {
           <View style={styles.modalView}>
             {children}
             <TouchableOpacity
+              hitSlop={20}
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(!modalVisible);

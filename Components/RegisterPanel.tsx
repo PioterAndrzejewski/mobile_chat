@@ -20,6 +20,7 @@ import { setUserToStorage } from "../utils/setUserToStorage";
 import { HomeScreenNavigationProp } from "../types/type";
 import { LOGIN_USER, REGISTER_USER } from "../apollo/queries";
 import { termsAndConditions, privacyPolicy } from "../assets/dummyText";
+import { emailReg } from "../utils/validation";
 
 export type Credentials =
   | "email"
@@ -36,6 +37,28 @@ export default function RegisterPanel() {
     password: "prefilled password",
     passwordConfirmation: "prefilled password",
   });
+  const [validation, setValidation] = useState({
+    email: {
+      isTouched: false,
+      error: "",
+    },
+    firstName: {
+      isTouched: false,
+      error: "",
+    },
+    lastName: {
+      isTouched: false,
+      error: "",
+    },
+    password: {
+      isTouched: false,
+      error: "",
+    },
+    passwordConfirmation: {
+      isTouched: false,
+      error: "",
+    },
+  });
   const [registerUser, { data, error, loading }] = useMutation(REGISTER_USER, {
     errorPolicy: "all",
   });
@@ -51,20 +74,91 @@ export default function RegisterPanel() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const [termsOpened, setTermsOpened] = useState(false);
   const [policyOpened, setPolicyOpened] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const updateCredentials = (
     newValue: string,
     field: Credentials | undefined,
-  ) =>
+  ) => {
+    let error = "";
+    let clearPasswordError = false;
+    switch (field) {
+      case "email":
+        if (!newValue.includes("@")) {
+          error = "Email is wrong";
+        }
+        break;
+      case "firstName":
+        if (newValue.trim().length < 3) {
+          error = "First name is too short";
+        }
+        break;
+      case "lastName":
+        if (newValue.trim().length < 3) {
+          error = "Last name is too short";
+        }
+        break;
+      case "password":
+        if (newValue !== credentials.passwordConfirmation) {
+          error = "Passwords are not the same";
+        }
+        if (newValue.length < 8) {
+          error = "Password is too short";
+        }
+        if (newValue === credentials.passwordConfirmation) {
+          clearPasswordError = true;
+        }
+        break;
+      case "passwordConfirmation":
+        if (newValue !== credentials.password) {
+          error = "Passwords are not the same";
+        }
+        if (newValue === credentials.passwordConfirmation) {
+          clearPasswordError = true;
+        }
+        break;
+    }
+    setButtonDisabled(false);
     setCredentials((prevValue) => {
-      const newCredentials = { ...prevValue };
+      const newCredentials = JSON.parse(JSON.stringify(prevValue));
       if (field) {
         newCredentials[field] = newValue;
       }
       return newCredentials;
     });
+    setValidation((prevValidation) => {
+      const newValidation = JSON.parse(JSON.stringify(prevValidation));
+      newValidation[field!].isTouched = true;
+      if (clearPasswordError) {
+        newValidation.password.error = "";
+        newValidation.passwordConfirmation.error = "";
+      }
+      if (
+        error === "Passwords are not the same" &&
+        newValidation.password.isTouched &&
+        newValidation.passwordConfirmation.isTouched
+      ) {
+        newValidation.password.error = error;
+        newValidation.passwordConfirmation.error = error;
+        return newValidation;
+      } else if (error === "Passwords are not the same") {
+        newValidation.password.error = "";
+        newValidation.passwordConfirmation.error = "";
+        return newValidation;
+      }
+      newValidation[field!].error = error;
+      return newValidation;
+    });
+    console.log(validation);
+  };
 
   const handleRegister = () => {
+    for (const credential in credentials) {
+      if (validation[credential].error !== "") {
+        setButtonDisabled(true);
+        return;
+      }
+    }
     try {
       registerUser({
         variables: {
@@ -106,28 +200,38 @@ export default function RegisterPanel() {
       label: "e-mail address",
       value: credentials.email,
       field: "email",
+      error: validation.email.error,
+      touched: validation.email.isTouched,
     },
     {
       label: "first name",
       value: credentials.firstName,
       field: "firstName",
+      error: validation.firstName.error,
+      touched: validation.firstName.isTouched,
     },
     {
       label: "last name",
       value: credentials.lastName,
       field: "lastName",
+      error: validation.lastName.error,
+      touched: validation.lastName.isTouched,
     },
     {
       label: "password",
       value: credentials.password,
       field: "password",
       others: { secure: true },
+      error: validation.password.error,
+      touched: validation.password.isTouched,
     },
     {
       label: "password confirmation",
       value: credentials.passwordConfirmation,
       field: "passwordConfirmation",
       others: { secure: true },
+      error: validation.passwordConfirmation.error,
+      touched: validation.passwordConfirmation.isTouched,
     },
   ];
 
@@ -143,13 +247,19 @@ export default function RegisterPanel() {
               value={input.value}
               field={input.field}
               {...input.others}
+              error={input.error}
+              isTouched={input.touched}
               key={input.label}
             />
           ))}
           {loading || loginUserData.loading ? (
             <ActivityIndicator size='large' />
           ) : (
-            <Button label='Sign up' onClick={handleRegister} />
+            <Button
+              label='Sign up'
+              onClick={handleRegister}
+              disabled={buttonDisabled}
+            />
           )}
         </View>
         <View style={styles.privacy}>
@@ -157,19 +267,19 @@ export default function RegisterPanel() {
             <Text style={styles.caption}>By signing up you agree with </Text>
           </View>
           <View style={styles.privacyRow}>
-            <TouchableOpacity onPress={() => setTermsOpened(true)}>
+            <TouchableOpacity onPress={() => setTermsOpened(true)} hitSlop={20}>
               <Text style={styles.captionLink}>Terms and Conditions</Text>
             </TouchableOpacity>
 
             <Text style={styles.caption}> and </Text>
-            <TouchableOpacity onPress={() => setPolicyOpened(true)}>
+            <TouchableOpacity onPress={() => setPolicyOpened(true)} hitSlop={20}>
               <Text style={styles.captionLink}>Privacy Policy.</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.signUpContainer}>
           <Text style={styles.hasAccount}>Already have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")} hitSlop={20}>
             <Text style={styles.signIn}>Log in</Text>
           </TouchableOpacity>
         </View>

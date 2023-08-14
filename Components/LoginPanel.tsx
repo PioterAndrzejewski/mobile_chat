@@ -81,7 +81,10 @@ export default function LoginPanel() {
       </View>
       <View style={styles.signUpContainer}>
         <Text style={styles.noAccount}>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Register")}
+          hitSlop={20}
+        >
           <Text style={styles.signUp}>Sign up</Text>
         </TouchableOpacity>
       </View>
