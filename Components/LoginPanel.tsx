@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 import { useMutation } from "@apollo/client";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import { gql } from "@apollo/client";
 
 import Button from "../Components/Button";
+import CustomModal from "./CustomModal";
 import CustomTextInput from "./CustomTextInput";
 import CustomModal from "./CustomModal";
 
@@ -17,7 +25,7 @@ import { LOGIN_USER } from "../apollo/queries";
 export default function LoginPanel() {
   const [email, setEmail] = useState("cameron.tucker@mail.com");
   const [password, setPassword] = useState("pgUBZ6YJlJYhTTH");
-  const [loginUser, { data, error, loading, reset }] = useMutation(LOGIN_USER, {
+  const [loginUser, { data, error, loading }] = useMutation(LOGIN_USER, {
     errorPolicy: "all",
   });
   const [fontLoaded] = useFonts({
@@ -75,7 +83,12 @@ export default function LoginPanel() {
       </View>
       <View style={styles.signUpContainer}>
         <Text style={styles.noAccount}>Don't have an account?</Text>
-        <Text style={styles.signUp}>Sign up</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Register")}
+          hitSlop={20}
+        >
+          <Text style={styles.signUp}>Sign up</Text>
+        </TouchableOpacity>
       </View>
       {error && (
         <CustomModal>
@@ -109,7 +122,7 @@ const styles = StyleSheet.create({
   },
   signUpContainer: {
     marginVertical: 80,
-    ...styleGuide.center,
+    ...(styleGuide.center as ViewStyle),
   },
   noAccount: {
     color: styleGuide.color.white,

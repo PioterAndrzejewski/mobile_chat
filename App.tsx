@@ -13,11 +13,12 @@ import { HomeStackNavigatorParamList } from "./types/type";
 import ChatScreen from "./screens/Chat";
 import RoomsScreen from "./screens/Rooms";
 import LoginScreen from "./screens/Login";
+import RegisterScreen from "./screens/Register";
 import RoomsTitle from "./Components/RoomsTitle";
 import ChatTitle from "./Components/ChatTitle";
 import LoginTitle from "./Components/LoginTitle";
 
-import { API_URL, API_TOKEN } from "@env";
+import { API_URL } from "@env";
 import { getStoredToken } from "./utils/getStoredToken";
 
 const httpLink = createHttpLink({
@@ -29,9 +30,7 @@ const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: storedToken
-        ? `Bearer ${storedToken}`
-        : `Bearer ${API_TOKEN}`,
+      authorization: storedToken ? `Bearer ${storedToken}` : ``,
     },
   };
 });
@@ -52,6 +51,11 @@ export default function App() {
             name='Login'
             component={LoginScreen}
             options={{ header: () => <LoginTitle title='Welcome back' /> }}
+          />
+          <Stack.Screen
+            name='Register'
+            component={RegisterScreen}
+            options={{ header: () => <LoginTitle title='Create account' /> }}
           />
           <Stack.Screen
             name='Rooms'

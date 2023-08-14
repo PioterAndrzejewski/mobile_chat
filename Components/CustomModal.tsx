@@ -1,8 +1,22 @@
 import React, { useState, ReactNode } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { styleGuide } from "../styles/guide";
 
-export default function CustomModal({ children }: { children: ReactNode }) {
+type CustomModalProps = {
+  children: ReactNode;
+  onClose?: () => void;
+};
+
+export default function CustomModal({ children, onClose }: CustomModalProps) {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <Modal
@@ -11,19 +25,30 @@ export default function CustomModal({ children }: { children: ReactNode }) {
       visible={modalVisible}
       onRequestClose={() => {
         setModalVisible(!modalVisible);
+        if (onClose) {
+          onClose();
+        }
       }}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          {children}
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Text style={styles.textStyle}>Ok</Text>
-          </Pressable>
+      <ScrollView>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            {children}
+            <TouchableOpacity
+              hitSlop={20}
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                if (onClose) {
+                  onClose();
+                }
+              }}
+            >
+              <Text style={styles.textStyle}>Got it!</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 }

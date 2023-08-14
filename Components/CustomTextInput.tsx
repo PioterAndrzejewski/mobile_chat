@@ -11,12 +11,16 @@ import { useFonts } from "expo-font";
 
 import { SendIcon, VisionIcon, VisionLowIcon } from "./SvgIcons";
 import { styleGuide } from "../styles/guide";
+import { Credentials } from "./RegisterPanel";
 
 type CustomTextInputProps = {
   label: string;
   secure?: boolean;
-  onChange: (a: string) => void;
+  onChange: (newValue: string, field?: Credentials | undefined) => void;
   value: string;
+  field?: Credentials | undefined;
+  error?: string;
+  isTouched?: boolean;
 };
 
 export default function CustomTextInput({
@@ -24,6 +28,9 @@ export default function CustomTextInput({
   secure,
   onChange,
   value,
+  field,
+  error,
+  isTouched,
 }: CustomTextInputProps) {
   const [inputFocused, setInputFocused] = useState(false);
   const [hidden, setHidden] = useState<boolean | undefined>(secure);
@@ -38,7 +45,7 @@ export default function CustomTextInput({
 
   const showPassword = () => (
     <View style={styles.icon}>
-      <TouchableOpacity onPress={handlePress}>
+      <TouchableOpacity onPress={handlePress} hitSlop={20}>
         {hidden ? <VisionLowIcon /> : <VisionIcon />}
       </TouchableOpacity>
     </View>
@@ -50,17 +57,23 @@ export default function CustomTextInput({
         <View>
           <TextInput
             style={
-              inputFocused
+              error && isTouched
+                ? {
+                    ...styles.input,
+                    ...styles.inputError,
+                  }
+                : inputFocused
                 ? { ...styles.input, ...styles.inputFocused }
                 : styles.input
             }
             onFocus={() => setInputFocused(true)}
             onBlur={() => setInputFocused(false)}
-            onChangeText={(value) => onChange(value)}
+            onChangeText={(value) => onChange(value, field)}
             value={value}
             editable
             secureTextEntry={secure && hidden}
           />
+          {error && isTouched && <Text style={styles.errorText}>{error}</Text>}
           {secure && showPassword()}
         </View>
       </View>
@@ -87,10 +100,22 @@ const styles = StyleSheet.create({
     ...styleGuide.text.title,
     backgroundColor: styleGuide.color.white,
   },
+  inputError: {
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: styleGuide.color.error,
+  },
   inputFocused: {
     borderStyle: "solid",
     borderWidth: 2,
     borderColor: styleGuide.color.plum["500"],
+  },
+  errorText: {
+    position: "absolute",
+    bottom: -24,
+    right: 0,
+    color: styleGuide.color.error,
+    ...styleGuide.text.caption,
   },
   icon: {
     position: "absolute",

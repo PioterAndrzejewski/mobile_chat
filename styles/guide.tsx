@@ -36,9 +36,9 @@ export const styleGuide = {
       "100": "#c692fd",
     },
     blue: {
-      "500": "#5603ad",
-      "300": "#b6defd",
-      "100": "#f0f8ff",
+      "500": "#259DFA",
+      "300": "#B6DEFD",
+      "100": "#F0F8FF",
     },
     gray: {
       "500": "#9fa2b2",

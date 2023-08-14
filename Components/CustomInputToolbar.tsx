@@ -52,7 +52,7 @@ export default function CustomInputToolbar(props: any) {
         onSubmitEditing={handlePress}
         editable
       />
-      <TouchableOpacity onPress={handlePress}>
+      <TouchableOpacity onPress={handlePress} hitSlop={20}>
         <SendIcon />
       </TouchableOpacity>
     </View>
