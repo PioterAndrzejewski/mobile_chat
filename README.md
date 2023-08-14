@@ -49,26 +49,30 @@ The appearance of the application was based on Firma mockup.
 The mobile app consists of several screens:
 
  ### login screen
-![image](https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/75ccc2cb-240a-48da-acdc-7656b5ff3074)
+![image](https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/1afdb452-879e-4c5d-bfde-b43d96e7e6b3)
+
 
 Login screen that allows to authenticate using email and password.
  
   ### register screen
  
-![image](https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/7f5faeed-f377-4200-b5fa-3ef143a30172)
+![image](https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/398058f4-adde-4896-8fb9-eb712659e11e)
+
 
 Register screen with validation that allows to create new user account.
 
   ### Rooms screen
 
-![image](https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/1a3580cf-769c-42b8-8d3b-532b267241e4)
+![image](https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/654660b8-f7fc-4e52-9add-87eff4c412fd)
+
 
 With list of conversations that user takes part in. 
 It displays the newest message and if user has read the message.
 
   ### Chat screen
 
-![image](https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/bc9d44c0-e39b-4047-ab6e-034f250da192)
+![image](https://github.com/PioterAndrzejewski/mobile_chat/assets/109315248/6d493084-2982-4f50-a385-bc97c2a86a7c)
+
 
 Chat screen created on base of Gifted Chat with custom-made components. 
 
